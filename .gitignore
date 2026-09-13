@@ -1,0 +1,42 @@
+# Visual Studio
+.vs/
+.vscode/
+
+# Build results
+[Bb]in/
+[Oo]bj/
+
+# User-specific files
+*.user
+*.userosscache
+*.suo
+*.userprefs
+
+# Visual Studio cache
+*.rsuser
+
+# Test results
+TestResults/
+
+# ReSharper
+_ReSharper*/
+*.[Rr]e[Ss]harper
+*.DotSettings.user
+
+# NuGet
+*.nupkg
+*.snupkg
+
+# ASP.NET generated files
+wwwroot/lib/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Local database files
+*.mdf
+*.ldf
+
+# Logs
+*.log
