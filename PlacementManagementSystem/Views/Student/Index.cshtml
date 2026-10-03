@@ -1,0 +1,237 @@
+﻿@model PlacementManagementSystem.Models.Student
+
+@{
+    ViewData["Title"] = "Student Dashboard";
+}
+
+<div class="container mt-4">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+            <h2>Student Dashboard</h2>
+            <p class="text-muted">
+                Welcome, @Model.FullName!
+            </p>
+        </div>
+
+        <a asp-controller="Student"
+           asp-action="Profile"
+           class="btn btn-primary">
+            My Profile
+        </a>
+
+    </div>
+
+
+    <!-- PROFILE SUMMARY -->
+
+    <div class="row g-4">
+
+        <div class="col-md-4">
+
+            <div class="card shadow-sm h-100">
+
+                <div class="card-body">
+
+                    <h5 class="card-title">
+                        👤 My Profile
+                    </h5>
+
+                    <p class="text-muted">
+                        View and update your personal and academic
+                        information.
+                    </p>
+
+                    <a asp-controller="Student"
+                       asp-action="Profile"
+                       class="btn btn-outline-primary">
+                        View Profile
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- PLACEMENT DRIVES -->
+
+        <div class="col-md-4">
+
+            <div class="card shadow-sm h-100">
+
+                <div class="card-body">
+
+                    <h5 class="card-title">
+                        💼 Placement Drives
+                    </h5>
+
+                    <p class="text-muted">
+                        View available company placement drives.
+                    </p>
+
+                    <button class="btn btn-outline-success"
+                            disabled>
+                        Coming Soon
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- APPLICATIONS -->
+
+        <div class="col-md-4">
+
+            <div class="card shadow-sm h-100">
+
+                <div class="card-body">
+
+                    <h5 class="card-title">
+                        📋 My Applications
+                    </h5>
+
+                    <p class="text-muted">
+                        Track your placement applications.
+                    </p>
+
+                    <button class="btn btn-outline-warning"
+                            disabled>
+                        Coming Soon
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ACADEMIC INFORMATION -->
+
+    <div class="card shadow-sm mt-4">
+
+        <div class="card-header bg-primary text-white">
+
+            <h5 class="mb-0">
+                Academic Information
+            </h5>
+
+        </div>
+
+        <div class="card-body">
+
+            <div class="row">
+
+                <div class="col-md-4">
+
+                    <strong>Roll Number</strong>
+
+                    <p>
+                        @Model.RollNumber
+                    </p>
+
+                </div>
+
+                <div class="col-md-4">
+
+                    <strong>Department</strong>
+
+                    <p>
+                        @Model.Department
+                    </p>
+
+                </div>
+
+                <div class="col-md-4">
+
+                    <strong>Current CGPA</strong>
+
+                    <p>
+                        @(Model.CurrentCGPA?.ToString("0.00") ?? "Not Added")
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="row">
+
+                <div class="col-md-4">
+
+                    <strong>10th Percentage</strong>
+
+                    <p>
+                        @(Model.TenthPercentage?.ToString("0.00") ?? "Not Added")
+                    </p>
+
+                </div>
+
+                <div class="col-md-4">
+
+                    <strong>12th Percentage</strong>
+
+                    <p>
+                        @(Model.TwelfthPercentage?.ToString("0.00") ?? "Not Added")
+                    </p>
+
+                </div>
+
+                <div class="col-md-4">
+
+                    <strong>Active Backlogs</strong>
+
+                    <p>
+                        @Model.ActiveBacklogs
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- PROFILE STATUS -->
+
+    <div class="card shadow-sm mt-4 mb-5">
+
+        <div class="card-body">
+
+            <h5>Profile Status</h5>
+
+            @if (Model.IsProfileVerified)
+            {
+                <span class="badge bg-success">
+                    Verified
+                </span>
+            }
+            else
+            {
+                <span class="badge bg-warning text-dark">
+                    Not Verified
+                </span>
+            }
+
+            @if (Model.IsProfileFrozen)
+            {
+                <span class="badge bg-danger ms-2">
+                    Profile Frozen
+                </span>
+            }
+
+        </div>
+
+    </div>
+
+</div>

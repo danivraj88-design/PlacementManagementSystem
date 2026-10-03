@@ -1,9 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace PlacementManagementSystem.Views.Shared
+namespace PlacementManagementSystem.Areas.Identity.Pages
 {
-    public class _LoginPartialModel : PageModel
+    public class _ViewImportsModel : PageModel
     {
         public void OnGet()
         {

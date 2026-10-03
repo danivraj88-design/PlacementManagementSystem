@@ -1,0 +1,389 @@
+﻿@model PlacementManagementSystem.Models.Student
+
+@{
+    ViewData["Title"] = "My Profile";
+}
+
+<div class="container mt-5 mb-5">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+            <h2>My Profile</h2>
+            <p class="text-muted">
+                View your placement profile information.
+            </p>
+        </div>
+
+        <a asp-controller="Student"
+           asp-action="EditProfile"
+           class="btn btn-primary">
+            Edit Profile
+        </a>
+
+    </div>
+
+
+    <!-- PERSONAL INFORMATION -->
+
+    <div class="card shadow-sm mb-4">
+
+        <div class="card-header bg-primary text-white">
+            <h5 class="mb-0">
+                Personal Information
+            </h5>
+        </div>
+
+        <div class="card-body">
+
+            <div class="row">
+
+                <div class="col-md-6 mb-3">
+                    <strong>Full Name</strong>
+                    <p>@Model.FullName</p>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <strong>Roll Number</strong>
+                    <p>@Model.RollNumber</p>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <strong>Department</strong>
+                    <p>@Model.Department</p>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <strong>Phone Number</strong>
+                    <p>
+                        @(Model.PhoneNumber ?? "Not provided")
+                    </p>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <strong>Date of Birth</strong>
+                    <p>
+                        @(Model.DateOfBirth?.ToString("dd-MM-yyyy")
+                            ?? "Not provided")
+                    </p>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <strong>Gender</strong>
+                    <p>
+                        @(Model.Gender ?? "Not provided")
+                    </p>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ADDRESS -->
+
+    <div class="card shadow-sm mb-4">
+
+        <div class="card-header">
+            <h5 class="mb-0">
+                Address Information
+            </h5>
+        </div>
+
+        <div class="card-body">
+
+            <div class="mb-3">
+
+                <strong>Present Address</strong>
+
+                <p>
+                    @(Model.PresentAddress ?? "Not provided")
+                </p>
+
+            </div>
+
+            <div>
+
+                <strong>Permanent Address</strong>
+
+                <p>
+                    @(Model.PermanentAddress ?? "Not provided")
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- EMERGENCY CONTACT -->
+
+    <div class="card shadow-sm mb-4">
+
+        <div class="card-header">
+            <h5 class="mb-0">
+                Emergency Contact
+            </h5>
+        </div>
+
+        <div class="card-body">
+
+            <div class="row">
+
+                <div class="col-md-6">
+
+                    <strong>Contact Name</strong>
+
+                    <p>
+                        @(Model.EmergencyContactName
+                            ?? "Not provided")
+                    </p>
+
+                </div>
+
+                <div class="col-md-6">
+
+                    <strong>Contact Number</strong>
+
+                    <p>
+                        @(Model.EmergencyContactNumber
+                            ?? "Not provided")
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ACADEMIC INFORMATION -->
+
+    <div class="card shadow-sm mb-4">
+
+        <div class="card-header">
+            <h5 class="mb-0">
+                Academic Information
+            </h5>
+        </div>
+
+        <div class="card-body">
+
+            <div class="row">
+
+                <div class="col-md-4 mb-3">
+
+                    <strong>10th Percentage</strong>
+
+                    <p>
+                        @(Model.TenthPercentage?.ToString()
+                            ?? "Not provided")
+                    </p>
+
+                </div>
+
+                <div class="col-md-4 mb-3">
+
+                    <strong>12th Percentage</strong>
+
+                    <p>
+                        @(Model.TwelfthPercentage?.ToString()
+                            ?? "Not provided")
+                    </p>
+
+                </div>
+
+                <div class="col-md-4 mb-3">
+
+                    <strong>Diploma Percentage</strong>
+
+                    <p>
+                        @(Model.DiplomaPercentage?.ToString()
+                            ?? "Not provided")
+                    </p>
+
+                </div>
+
+                <div class="col-md-4 mb-3">
+
+                    <strong>Current CGPA</strong>
+
+                    <p>
+                        @(Model.CurrentCGPA?.ToString()
+                            ?? "Not provided")
+                    </p>
+
+                </div>
+
+                <div class="col-md-4 mb-3">
+
+                    <strong>Active Backlogs</strong>
+
+                    <p>
+                        @Model.ActiveBacklogs
+                    </p>
+
+                </div>
+
+                <div class="col-md-4 mb-3">
+
+                    <strong>Cleared Backlogs</strong>
+
+                    <p>
+                        @Model.ClearedBacklogs
+                    </p>
+
+                </div>
+
+                <div class="col-md-6 mb-3">
+
+                    <strong>Passing Year</strong>
+
+                    <p>
+                        @(Model.PassingYear?.ToString()
+                            ?? "Not provided")
+                    </p>
+
+                </div>
+
+                <div class="col-md-6 mb-3">
+
+                    <strong>Specialization</strong>
+
+                    <p>
+                        @(Model.Specialization
+                            ?? "Not provided")
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- SKILLS AND SOCIAL -->
+
+    <div class="card shadow-sm mb-4">
+
+        <div class="card-header">
+            <h5 class="mb-0">
+                Skills & Social Profiles
+            </h5>
+        </div>
+
+        <div class="card-body">
+
+            <div class="mb-3">
+
+                <strong>Skills</strong>
+
+                <p>
+                    @(Model.Skills ?? "Not provided")
+                </p>
+
+            </div>
+
+            <div class="mb-3">
+
+                <strong>GitHub</strong>
+
+                @if (!string.IsNullOrEmpty(Model.GitHubUrl))
+                {
+                    <p>
+                        <a href="@Model.GitHubUrl"
+                           target="_blank">
+                            @Model.GitHubUrl
+                        </a>
+                    </p>
+                }
+                else
+                {
+                    <p>Not provided</p>
+                }
+
+            </div>
+
+            <div>
+
+                <strong>LinkedIn</strong>
+
+                @if (!string.IsNullOrEmpty(Model.LinkedInUrl))
+                {
+                    <p>
+                        <a href="@Model.LinkedInUrl"
+                           target="_blank">
+                            @Model.LinkedInUrl
+                        </a>
+                    </p>
+                }
+                else
+                {
+                    <p>Not provided</p>
+                }
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- PROFILE STATUS -->
+
+    <div class="card shadow-sm mb-4">
+
+        <div class="card-header">
+            <h5 class="mb-0">
+                Profile Status
+            </h5>
+        </div>
+
+        <div class="card-body">
+
+            <p>
+                <strong>Profile Verified:</strong>
+
+                @if (Model.IsProfileVerified)
+                {
+                    <span class="badge bg-success">
+                        Verified
+                    </span>
+                }
+                else
+                {
+                    <span class="badge bg-warning text-dark">
+                        Not Verified
+                    </span>
+                }
+            </p>
+
+            <p>
+                <strong>Profile Frozen:</strong>
+
+                @if (Model.IsProfileFrozen)
+                {
+                    <span class="badge bg-danger">
+                        Frozen
+                    </span>
+                }
+                else
+                {
+                    <span class="badge bg-success">
+                        Editable
+                    </span>
+                }
+            </p>
+
+        </div>
+
+    </div>
+
+</div>
