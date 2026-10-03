@@ -1,0 +1,108 @@
+﻿@model IEnumerable<PlacementManagementSystem.Models.Student>
+
+@{
+    ViewData["Title"] = "Student Management";
+}
+
+<div class="container mt-4">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1>Student Management</h1>
+            <p class="text-muted">
+                View and manage registered students.
+            </p>
+        </div>
+
+        <a asp-controller="TPO"
+           asp-action="Index"
+           class="btn btn-secondary">
+            Back to Dashboard
+        </a>
+    </div>
+
+    <form method="get" class="mb-4">
+        <div class="input-group">
+            <input type="text"
+                   name="search"
+                   value="@ViewBag.Search"
+                   class="form-control"
+                   placeholder="Search by name, roll number or department..." />
+
+            <button type="submit"
+                    class="btn btn-primary">
+                Search
+            </button>
+        </div>
+    </form>
+
+    <div class="card shadow-sm">
+
+        <div class="card-header">
+            <strong>Registered Students</strong>
+        </div>
+
+        <div class="card-body">
+
+            @if (!Model.Any())
+            {
+                <div class="alert alert-info">
+                    No students found.
+                </div>
+            }
+            else
+            {
+                <div class="table-responsive">
+
+                    <table class="table table-bordered table-hover">
+
+                        <thead class="table-dark">
+                            <tr>
+                                <th>Roll Number</th>
+                                <th>Name</th>
+                                <th>Department</th>
+                                <th>CGPA</th>
+                                <th>Backlogs</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+
+                            @foreach (var student in Model)
+                            {
+                                <tr>
+                                    <td>@student.RollNumber</td>
+
+                                    <td>@student.FullName</td>
+
+                                    <td>@student.Department</td>
+
+                                    <td>
+                                        @(student.CurrentCGPA?.ToString("0.00") ?? "-")
+                                    </td>
+
+                                    <td>
+                                        @student.ActiveBacklogs
+                                    </td>
+
+                                    <td>
+                                        <a asp-action="Details"
+                                           asp-route-id="@student.StudentId"
+                                           class="btn btn-sm btn-primary">
+                                            View
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+            }
+
+        </div>
+    </div>
+</div>
