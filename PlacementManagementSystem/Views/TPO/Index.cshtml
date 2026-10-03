@@ -1,0 +1,302 @@
+﻿@{
+    ViewData["Title"] = "TPO Dashboard";
+}
+
+<div class="container mt-4 mb-5">
+
+    <!-- Dashboard Header -->
+    <div class="text-center mb-5">
+        <h1>Training & Placement Officer Dashboard</h1>
+
+        <p class="text-muted">
+            Manage students, companies, placement drives,
+            applications and reports.
+        </p>
+    </div>
+
+
+    <!-- Statistics -->
+    <div class="row mb-5">
+
+        <!-- Total Students -->
+        <div class="col-md-3 mb-3">
+            <div class="card shadow-sm h-100">
+
+                <div class="card-body">
+
+                    <h5 class="card-title">
+                        Total Students
+                    </h5>
+
+                    <h2 class="display-6">
+                        @ViewBag.TotalStudents
+                    </h2>
+
+                    <p class="text-muted mb-0">
+                        Registered students
+                    </p>
+
+                </div>
+
+            </div>
+        </div>
+
+
+        <!-- Total Companies -->
+        <div class="col-md-3 mb-3">
+            <div class="card shadow-sm h-100">
+
+                <div class="card-body">
+
+                    <h5 class="card-title">
+                        Companies
+                    </h5>
+
+                    <h2 class="display-6">
+                        @ViewBag.TotalCompanies
+                    </h2>
+
+                    <p class="text-muted mb-0">
+                        Registered companies
+                    </p>
+
+                </div>
+
+            </div>
+        </div>
+
+
+        <!-- Job Openings -->
+        <div class="col-md-3 mb-3">
+            <div class="card shadow-sm h-100">
+
+                <div class="card-body">
+
+                    <h5 class="card-title">
+                        Job Openings
+                    </h5>
+
+                    <h2 class="display-6">
+                        @ViewBag.TotalJobOpenings
+                    </h2>
+
+                    <p class="text-muted mb-0">
+                        Active opportunities
+                    </p>
+
+                </div>
+
+            </div>
+        </div>
+
+
+        <!-- Applications -->
+        <div class="col-md-3 mb-3">
+            <div class="card shadow-sm h-100">
+
+                <div class="card-body">
+
+                    <h5 class="card-title">
+                        Applications
+                    </h5>
+
+                    <h2 class="display-6">
+                        @ViewBag.TotalApplications
+                    </h2>
+
+                    <p class="text-muted mb-0">
+                        Student applications
+                    </p>
+
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+
+    <!-- Placement Management -->
+    <h2 class="mb-4">
+        Placement Management
+    </h2>
+
+
+    <div class="row">
+
+        <!-- Student Management -->
+        <div class="col-md-4 mb-4">
+
+            <div class="card shadow-sm h-100">
+
+                <div class="card-body">
+
+                    <h3 class="card-title">
+                        Student Management
+                    </h3>
+
+                    <p class="card-text text-muted">
+                        View and manage registered student profiles,
+                        academic information and placement eligibility.
+                    </p>
+
+                    <a asp-controller="StudentManagement"
+                       asp-action="Index"
+                       class="btn btn-primary">
+                        Manage Students
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- Company Management -->
+        <div class="col-md-4 mb-4">
+
+            <div class="card shadow-sm h-100">
+
+                <div class="card-body">
+
+                    <h3 class="card-title">
+                        Company Management
+                    </h3>
+
+                    <p class="card-text text-muted">
+                        Review companies, approve recruiters
+                        and manage company registration requests.
+                    </p>
+
+                    <a asp-controller="CompanyManagement"
+                       asp-action="Index"
+                       class="btn btn-success">
+                        Manage Companies
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- Placement Drives -->
+        <div class="col-md-4 mb-4">
+
+            <div class="card shadow-sm h-100">
+
+                <div class="card-body">
+
+                    <h3 class="card-title">
+                        Placement Drives
+                    </h3>
+
+                    <p class="card-text text-muted">
+                        Create and manage placement drives,
+                        job openings and recruitment schedules.
+                    </p>
+
+                    <a asp-controller="PlacementDrive"
+                       asp-action="Index"
+                       class="btn btn-secondary">
+                        Manage Drives
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- Applications -->
+        <div class="col-md-4 mb-4">
+
+            <div class="card shadow-sm h-100">
+
+                <div class="card-body">
+
+                    <h3 class="card-title">
+                        Applications
+                    </h3>
+
+                    <p class="card-text text-muted">
+                        Monitor student applications and
+                        their placement application status.
+                    </p>
+
+                    <a asp-controller="ApplicationManagement"
+                       asp-action="Index"
+                       class="btn btn-warning">
+                        View Applications
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- Eligibility -->
+        <div class="col-md-4 mb-4">
+
+            <div class="card shadow-sm h-100">
+
+                <div class="card-body">
+
+                    <h3 class="card-title">
+                        Eligibility
+                    </h3>
+
+                    <p class="card-text text-muted">
+                        Check student eligibility based on CGPA,
+                        backlogs, department and other criteria.
+                    </p>
+
+                    <a asp-controller="Eligibility"
+                       asp-action="Index"
+                       class="btn btn-info">
+                        Check Eligibility
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- Reports -->
+        <div class="col-md-4 mb-4">
+
+            <div class="card shadow-sm h-100">
+
+                <div class="card-body">
+
+                    <h3 class="card-title">
+                        Reports
+                    </h3>
+
+                    <p class="card-text text-muted">
+                        View placement statistics and
+                        generate placement-related reports.
+                    </p>
+
+                    <a asp-controller="Reports"
+                       asp-action="Index"
+                       class="btn btn-dark">
+                        View Reports
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

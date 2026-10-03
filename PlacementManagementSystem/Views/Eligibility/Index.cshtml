@@ -1,0 +1,166 @@
+﻿@model IEnumerable<PlacementManagementSystem.Models.Student>
+
+@{
+    ViewData["Title"] = "Student Eligibility";
+}
+
+<div class="container mt-4">
+
+    <div class="d-flex justify-content-between mb-4">
+
+        <div>
+            <h1>Check Eligibility</h1>
+
+            <p class="text-muted">
+                Find students eligible for placement opportunities.
+            </p>
+        </div>
+
+        <a asp-controller="TPO"
+           asp-action="Index"
+           class="btn btn-secondary">
+            Dashboard
+        </a>
+
+    </div>
+
+    <div class="card shadow-sm mb-4">
+
+        <div class="card-header bg-info">
+            <h4>Eligibility Criteria</h4>
+        </div>
+
+        <div class="card-body">
+
+            <form method="post">
+
+                <div class="row">
+
+                    <div class="col-md-4">
+
+                        <label class="form-label">
+                            Minimum CGPA
+                        </label>
+
+                        <input type="number"
+                               name="minimumCGPA"
+                               step="0.01"
+                               min="0"
+                               max="10"
+                               value="@ViewBag.MinimumCGPA"
+                               class="form-control"
+                               required />
+
+                    </div>
+
+                    <div class="col-md-4">
+
+                        <label class="form-label">
+                            Maximum Backlogs
+                        </label>
+
+                        <input type="number"
+                               name="maximumBacklogs"
+                               min="0"
+                               value="@ViewBag.MaximumBacklogs"
+                               class="form-control"
+                               required />
+
+                    </div>
+
+                    <div class="col-md-4">
+
+                        <label class="form-label">
+                            Department
+                        </label>
+
+                        <input type="text"
+                               name="department"
+                               value="@ViewBag.Department"
+                               class="form-control"
+                               placeholder="Leave blank for all" />
+
+                    </div>
+
+                </div>
+
+                <button type="submit"
+                        class="btn btn-info mt-3">
+                    Check Eligibility
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+    @if (Model != null && Model.Any())
+    {
+        <div class="card shadow-sm">
+
+            <div class="card-header">
+                <strong>Eligible Students</strong>
+            </div>
+
+            <div class="card-body">
+
+                <table class="table table-bordered">
+
+                    <thead class="table-dark">
+
+                        <tr>
+                            <th>Name</th>
+                            <th>Roll Number</th>
+                            <th>Department</th>
+                            <th>CGPA</th>
+                            <th>Backlogs</th>
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        @foreach (var student in Model)
+                        {
+                            <tr>
+
+                                <td>
+                                    @student.FullName
+                                </td>
+
+                                <td>
+                                    @student.RollNumber
+                                </td>
+
+                                <td>
+                                    @student.Department
+                                </td>
+
+                                <td>
+                                    @student.CurrentCGPA
+                                </td>
+
+                                <td>
+                                    @student.ActiveBacklogs
+                                </td>
+
+                            </tr>
+                        }
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-info">
+            Enter eligibility criteria to find eligible students.
+        </div>
+    }
+
+</div>

@@ -1,0 +1,143 @@
+﻿@model IEnumerable<PlacementManagementSystem.Models.Company>
+
+@{
+    ViewData["Title"] = "Company Management";
+}
+
+<div class="container mt-4">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+            <h1>Company Management</h1>
+            <p class="text-muted">
+                Review and manage registered companies.
+            </p>
+        </div>
+
+        <a asp-controller="TPO"
+           asp-action="Index"
+           class="btn btn-secondary">
+            Back to Dashboard
+        </a>
+
+    </div>
+
+    <div class="card shadow-sm">
+
+        <div class="card-body">
+
+            @if (!Model.Any())
+            {
+                <div class="alert alert-info">
+                    No companies registered yet.
+                </div>
+            }
+            else
+            {
+                <div class="table-responsive">
+
+                    <table class="table table-bordered">
+
+                        <thead class="table-dark">
+                            <tr>
+                                <th>Company</th>
+                                <th>Email</th>
+                                <th>Industry</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+
+                            @foreach (var company in Model)
+                            {
+                                <tr>
+
+                                    <td>
+                                        @company.CompanyName
+                                    </td>
+
+                                    <td>
+                                        @company.OfficialEmail
+                                    </td>
+
+                                    <td>
+                                        @company.Industry
+                                    </td>
+
+                                    <td>
+
+                                        @if (company.IsApproved)
+                                        {
+                                            <span class="badge bg-success">
+                                                Approved
+                                            </span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge bg-warning text-dark">
+                                                Pending
+                                            </span>
+                                        }
+
+                                    </td>
+
+                                    <td>
+
+                                        <a asp-action="Details"
+                                           asp-route-id="@company.CompanyId"
+                                           class="btn btn-sm btn-primary">
+                                            View
+                                        </a>
+
+                                        @if (!company.IsApproved)
+                                        {
+                                            <form asp-action="Approve"
+                                                  asp-route-id="@company.CompanyId"
+                                                  method="post"
+                                                  class="d-inline">
+
+                                                @Html.AntiForgeryToken()
+
+                                                <button type="submit"
+                                                        class="btn btn-sm btn-success">
+                                                    Approve
+                                                </button>
+
+                                            </form>
+                                        }
+
+                                        @if (company.IsApproved)
+                                        {
+                                            <form asp-action="Reject"
+                                                  asp-route-id="@company.CompanyId"
+                                                  method="post"
+                                                  class="d-inline">
+
+                                                @Html.AntiForgeryToken()
+
+                                                <button type="submit"
+                                                        class="btn btn-sm btn-danger">
+                                                    Reject
+                                                </button>
+
+                                            </form>
+                                        }
+
+                                    </td>
+
+                                </tr>
+                            }
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+            }
+
+        </div>
+    </div>
+</div>

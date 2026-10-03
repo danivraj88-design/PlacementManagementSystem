@@ -1,0 +1,145 @@
+﻿@model IEnumerable<PlacementManagementSystem.Models.PlacementApplication>
+
+@{
+    ViewData["Title"] = "Applications";
+}
+
+<div class="container mt-4">
+
+    <div class="d-flex justify-content-between mb-4">
+
+        <div>
+            <h1>Student Applications</h1>
+
+            <p class="text-muted">
+                Monitor student placement applications.
+            </p>
+        </div>
+
+        <a asp-controller="TPO"
+           asp-action="Index"
+           class="btn btn-secondary">
+            Dashboard
+        </a>
+
+    </div>
+
+    <div class="card shadow-sm">
+
+        <div class="card-body">
+
+            @if (!Model.Any())
+            {
+                <div class="alert alert-info">
+                    No applications found.
+                </div>
+            }
+            else
+            {
+                <div class="table-responsive">
+
+                    <table class="table table-bordered">
+
+                        <thead class="table-dark">
+
+                            <tr>
+                                <th>Student</th>
+                                <th>Company</th>
+                                <th>Job</th>
+                                <th>Applied</th>
+                                <th>Status</th>
+                                <th>Update</th>
+                            </tr>
+
+                        </thead>
+
+                        <tbody>
+
+                            @foreach (var application in Model)
+                            {
+                                <tr>
+
+                                    <td>
+                                        @application.Student?.FullName
+                                    </td>
+
+                                    <td>
+                                        @application.JobOpening?.Company?.CompanyName
+                                    </td>
+
+                                    <td>
+                                        @application.JobOpening?.JobTitle
+                                    </td>
+
+                                    <td>
+                                        @application.AppliedAt.ToString("dd-MM-yyyy")
+                                    </td>
+
+                                    <td>
+
+                                        <span class="badge bg-primary">
+                                            @application.Status
+                                        </span>
+
+                                    </td>
+
+                                    <td>
+
+                                        <form asp-action="UpdateStatus"
+                                              method="post">
+
+                                            @Html.AntiForgeryToken()
+
+                                            <input type="hidden"
+                                                   name="id"
+                                                   value="@application.PlacementApplicationId" />
+
+                                            <select name="status"
+                                                    class="form-select form-select-sm mb-2">
+
+                                                <option value="Applied">
+                                                    Applied
+                                                </option>
+
+                                                <option value="Shortlisted">
+                                                    Shortlisted
+                                                </option>
+
+                                                <option value="Interview">
+                                                    Interview
+                                                </option>
+
+                                                <option value="Selected">
+                                                    Selected
+                                                </option>
+
+                                                <option value="Rejected">
+                                                    Rejected
+                                                </option>
+
+                                            </select>
+
+                                            <button type="submit"
+                                                    class="btn btn-sm btn-success">
+                                                Update
+                                            </button>
+
+                                        </form>
+
+                                    </td>
+
+                                </tr>
+                            }
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+            }
+
+        </div>
+
+    </div>
+
+</div>
