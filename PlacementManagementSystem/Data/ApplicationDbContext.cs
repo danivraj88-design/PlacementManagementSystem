@@ -11,5 +11,7 @@ namespace PlacementManagementSystem.Data
             : base(options)
         {
         }
+
+        public DbSet<Student> Students { get; set; }
     }
 }
