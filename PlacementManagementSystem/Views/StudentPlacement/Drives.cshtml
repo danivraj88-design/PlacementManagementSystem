@@ -1,0 +1,185 @@
+﻿@model IEnumerable<PlacementManagementSystem.Models.JobOpening>
+
+@{
+    ViewData["Title"] = "Placement Drives";
+}
+
+<div class="container mt-4 mb-5">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+            <h1>Placement Drives</h1>
+
+            <p class="text-muted">
+                View available placement opportunities
+                and apply for suitable jobs.
+            </p>
+        </div>
+
+        <div>
+            <a asp-controller="Student"
+               asp-action="Index"
+               class="btn btn-secondary">
+                Dashboard
+            </a>
+
+            <a asp-controller="StudentPlacement"
+               asp-action="Applications"
+               class="btn btn-primary">
+                My Applications
+            </a>
+        </div>
+
+    </div>
+
+
+    <!-- Success Message -->
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show">
+            @TempData["Success"]
+
+            <button type="button"
+                    class="btn-close"
+                    data-bs-dismiss="alert">
+            </button>
+        </div>
+    }
+
+
+    <!-- Error Message -->
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-danger alert-dismissible fade show">
+            @TempData["Error"]
+
+            <button type="button"
+                    class="btn-close"
+                    data-bs-dismiss="alert">
+            </button>
+        </div>
+    }
+
+
+    @if (!Model.Any())
+    {
+        <div class="alert alert-info">
+
+            <h5>No placement opportunities available.</h5>
+
+            <p class="mb-0">
+                There are currently no active placement opportunities
+                available for application.
+            </p>
+
+        </div>
+    }
+    else
+    {
+        <div class="row">
+
+            @foreach (var job in Model)
+            {
+                <div class="col-md-6 mb-4">
+
+                    <div class="card shadow-sm h-100">
+
+                        <div class="card-header bg-primary text-white">
+
+                            <h4 class="mb-0">
+                                @job.JobTitle
+                            </h4>
+
+                        </div>
+
+                        <div class="card-body">
+
+                            <h5>
+                                @job.Company?.CompanyName
+                            </h5>
+
+                            @if (job.PlacementDrive != null)
+                            {
+                                <p class="text-muted">
+                                    <strong>Drive:</strong>
+                                    @job.PlacementDrive.DriveName
+                                </p>
+                            }
+
+                            <hr />
+
+                            <p>
+                                <strong>Location:</strong>
+                                @(job.JobLocation ?? "Not specified")
+                            </p>
+
+                            <p>
+                                <strong>Employment Type:</strong>
+                                @(job.EmploymentType ?? "Not specified")
+                            </p>
+
+                            <p>
+                                <strong>Minimum CGPA:</strong>
+                                @job.MinimumCGPA.ToString("0.00")
+                            </p>
+
+                            <p>
+                                <strong>Maximum Backlogs:</strong>
+                                @job.MaximumBacklogs
+                            </p>
+
+                            <p>
+                                <strong>Eligible Departments:</strong>
+                                @(job.EligibleDepartments ?? "All Departments")
+                            </p>
+
+                            @if (job.SalaryPackage.HasValue)
+                            {
+                                <p>
+                                    <strong>Package:</strong>
+                                    @job.SalaryPackage.Value.ToString("0.##")
+                                </p>
+                            }
+
+                            @if (job.ApplicationDeadline.HasValue)
+                            {
+                                <p>
+                                    <strong>Application Deadline:</strong>
+                                    @job.ApplicationDeadline.Value.ToString("dd-MM-yyyy")
+                                </p>
+                            }
+
+                            @if (!string.IsNullOrWhiteSpace(job.Description))
+                            {
+                                <p>
+                                    <strong>Description:</strong>
+                                    @job.Description
+                                </p>
+                            }
+
+                            <form asp-controller="StudentPlacement"
+                                  asp-action="Apply"
+                                  asp-route-id="@job.JobOpeningId"
+                                  method="post">
+
+                                @Html.AntiForgeryToken()
+
+                                <button type="submit"
+                                        class="btn btn-success w-100">
+                                    Apply Now
+                                </button>
+
+                            </form>
+
+                        </div>
+
+                    </div>
+
+                </div>
+            }
+
+        </div>
+    }
+
+</div>
