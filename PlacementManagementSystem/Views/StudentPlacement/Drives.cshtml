@@ -1,63 +1,42 @@
-﻿@model IEnumerable<PlacementManagementSystem.Models.JobOpening>
+﻿@model IEnumerable<PlacementManagementSystem.Models.PlacementDrive>
 
 @{
     ViewData["Title"] = "Placement Drives";
 }
 
-<div class="container mt-4 mb-5">
+<div class="container mt-5 mb-5">
 
     <div class="d-flex justify-content-between align-items-center mb-4">
 
         <div>
-            <h1>Placement Drives</h1>
+            <h1 class="fw-bold">Placement Drives</h1>
 
-            <p class="text-muted">
-                View available placement opportunities
-                and apply for suitable jobs.
+            <p class="text-muted mb-0">
+                View available placement drives and job opportunities.
             </p>
         </div>
 
         <div>
-            <a asp-controller="Student"
-               asp-action="Index"
+            <a href="/Student/Index"
                class="btn btn-secondary">
-                Dashboard
-            </a>
-
-            <a asp-controller="StudentPlacement"
-               asp-action="Applications"
-               class="btn btn-primary">
-                My Applications
+                ← Dashboard
             </a>
         </div>
 
     </div>
 
 
-    <!-- Success Message -->
     @if (TempData["Success"] != null)
     {
-        <div class="alert alert-success alert-dismissible fade show">
+        <div class="alert alert-success">
             @TempData["Success"]
-
-            <button type="button"
-                    class="btn-close"
-                    data-bs-dismiss="alert">
-            </button>
         </div>
     }
 
-
-    <!-- Error Message -->
     @if (TempData["Error"] != null)
     {
-        <div class="alert alert-danger alert-dismissible fade show">
+        <div class="alert alert-danger">
             @TempData["Error"]
-
-            <button type="button"
-                    class="btn-close"
-                    data-bs-dismiss="alert">
-            </button>
         </div>
     }
 
@@ -65,121 +44,284 @@
     @if (!Model.Any())
     {
         <div class="alert alert-info">
-
-            <h5>No placement opportunities available.</h5>
+            <h5>No Placement Drives Available</h5>
 
             <p class="mb-0">
-                There are currently no active placement opportunities
-                available for application.
+                There are currently no active placement drives.
             </p>
-
         </div>
     }
     else
     {
-        <div class="row">
+        @foreach (var drive in Model)
+        {
+            <div class="card shadow-sm mb-5">
 
-            @foreach (var job in Model)
-            {
-                <div class="col-md-6 mb-4">
+                <div class="card-header bg-dark text-white">
 
-                    <div class="card shadow-sm h-100">
+                    <div class="d-flex justify-content-between">
 
-                        <div class="card-header bg-primary text-white">
+                        <div>
+                            <h3 class="mb-1">
+                                @drive.DriveName
+                            </h3>
 
-                            <h4 class="mb-0">
-                                @job.JobTitle
-                            </h4>
-
+                            <small>
+                                Placement Drive
+                            </small>
                         </div>
 
-                        <div class="card-body">
-
-                            <h5>
-                                @job.Company?.CompanyName
-                            </h5>
-
-                            @if (job.PlacementDrive != null)
-                            {
-                                <p class="text-muted">
-                                    <strong>Drive:</strong>
-                                    @job.PlacementDrive.DriveName
-                                </p>
-                            }
-
-                            <hr />
-
-                            <p>
-                                <strong>Location:</strong>
-                                @(job.JobLocation ?? "Not specified")
-                            </p>
-
-                            <p>
-                                <strong>Employment Type:</strong>
-                                @(job.EmploymentType ?? "Not specified")
-                            </p>
-
-                            <p>
-                                <strong>Minimum CGPA:</strong>
-                                @job.MinimumCGPA.ToString("0.00")
-                            </p>
-
-                            <p>
-                                <strong>Maximum Backlogs:</strong>
-                                @job.MaximumBacklogs
-                            </p>
-
-                            <p>
-                                <strong>Eligible Departments:</strong>
-                                @(job.EligibleDepartments ?? "All Departments")
-                            </p>
-
-                            @if (job.SalaryPackage.HasValue)
-                            {
-                                <p>
-                                    <strong>Package:</strong>
-                                    @job.SalaryPackage.Value.ToString("0.##")
-                                </p>
-                            }
-
-                            @if (job.ApplicationDeadline.HasValue)
-                            {
-                                <p>
-                                    <strong>Application Deadline:</strong>
-                                    @job.ApplicationDeadline.Value.ToString("dd-MM-yyyy")
-                                </p>
-                            }
-
-                            @if (!string.IsNullOrWhiteSpace(job.Description))
-                            {
-                                <p>
-                                    <strong>Description:</strong>
-                                    @job.Description
-                                </p>
-                            }
-
-                            <form asp-controller="StudentPlacement"
-                                  asp-action="Apply"
-                                  asp-route-id="@job.JobOpeningId"
-                                  method="post">
-
-                                @Html.AntiForgeryToken()
-
-                                <button type="submit"
-                                        class="btn btn-success w-100">
-                                    Apply Now
-                                </button>
-
-                            </form>
-
-                        </div>
+                        <span class="badge bg-success align-self-start">
+                            Active
+                        </span>
 
                     </div>
 
                 </div>
-            }
 
-        </div>
+
+                <div class="card-body">
+
+                    <div class="row mb-4">
+
+                        <div class="col-md-4">
+                            <strong>Drive Date</strong>
+
+                            <p class="text-muted">
+                                @drive.DriveDate.ToString("dd MMM yyyy")
+                            </p>
+                        </div>
+
+                        <div class="col-md-4">
+                            <strong>Venue</strong>
+
+                            <p class="text-muted">
+                                @(string.IsNullOrWhiteSpace(drive.Venue)
+                                    ? "Not specified"
+                                    : drive.Venue)
+                            </p>
+                        </div>
+
+                        <div class="col-md-4">
+                            <strong>Status</strong>
+
+                            <p>
+                                <span class="badge bg-success">
+                                    Active
+                                </span>
+                            </p>
+                        </div>
+
+                    </div>
+
+
+                    @if (!string.IsNullOrWhiteSpace(drive.Description))
+                    {
+                        <div class="alert alert-light border">
+                            <strong>About this Drive</strong>
+
+                            <p class="mb-0 mt-2">
+                                @drive.Description
+                            </p>
+                        </div>
+                    }
+
+
+                    <hr />
+
+                    <h4 class="mb-3">
+                        Available Job Openings
+                    </h4>
+
+
+                    @if (drive.JobOpenings == null ||
+                         !drive.JobOpenings.Any())
+                    {
+                        <div class="alert alert-warning">
+                            No job openings have been added
+                            to this placement drive yet.
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="row g-4">
+
+                            @foreach (var job in drive.JobOpenings)
+                            {
+                                <div class="col-md-6">
+
+                                    <div class="card h-100 border">
+
+                                        <div class="card-header">
+
+                                            <div class="d-flex justify-content-between">
+
+                                                <h5 class="mb-0">
+                                                    @job.JobTitle
+                                                </h5>
+
+                                                @if (job.IsActive)
+                                                {
+                                                    <span class="badge bg-success">
+                                                        Active
+                                                    </span>
+                                                }
+                                                else
+                                                {
+                                                    <span class="badge bg-secondary">
+                                                        Inactive
+                                                    </span>
+                                                }
+
+                                            </div>
+
+                                        </div>
+
+
+                                        <div class="card-body">
+
+                                            <p>
+                                                <strong>Company:</strong>
+
+                                                @(job.Company?.CompanyName
+                                                    ?? "Company not available")
+                                            </p>
+
+
+                                            <p>
+                                                <strong>Location:</strong>
+
+                                                @(string.IsNullOrWhiteSpace(job.JobLocation)
+                                                    ? "Not specified"
+                                                    : job.JobLocation)
+                                            </p>
+
+
+                                            <p>
+                                                <strong>Employment Type:</strong>
+
+                                                @(string.IsNullOrWhiteSpace(job.EmploymentType)
+                                                    ? "Not specified"
+                                                    : job.EmploymentType)
+                                            </p>
+
+
+                                            <p>
+                                                <strong>Salary / Package:</strong>
+
+                                                @if (job.SalaryPackage.HasValue)
+                                                {
+                                                    @job.SalaryPackage.Value.ToString("0.##")
+                                                }
+                                                else
+                                                {
+                                                    <span>Not specified</span>
+                                                }
+                                            </p>
+
+
+                                            <hr />
+
+
+                                            <h6 class="fw-bold">
+                                                Eligibility
+                                            </h6>
+
+
+                                            <p class="mb-1">
+                                                <strong>Minimum CGPA:</strong>
+                                                @job.MinimumCGPA.ToString("0.00")
+                                            </p>
+
+
+                                            <p class="mb-1">
+                                                <strong>Maximum Backlogs:</strong>
+                                                @job.MaximumBacklogs
+                                            </p>
+
+
+                                            <p>
+                                                <strong>Departments:</strong>
+
+                                                @(string.IsNullOrWhiteSpace(job.EligibleDepartments)
+                                                    ? "All Departments"
+                                                    : job.EligibleDepartments)
+                                            </p>
+
+
+                                            @if (job.ApplicationDeadline.HasValue)
+                                            {
+                                                <p>
+                                                    <strong>Application Deadline:</strong>
+
+                                                    @job.ApplicationDeadline.Value
+                                                    .ToString("dd MMM yyyy")
+                                                </p>
+                                            }
+
+
+                                            @if (!string.IsNullOrWhiteSpace(job.Description))
+                                            {
+                                                <hr />
+
+                                                <h6 class="fw-bold">
+                                                    Job Description
+                                                </h6>
+
+                                                <p class="text-muted">
+                                                    @job.Description
+                                                </p>
+                                            }
+
+
+                                            <hr />
+
+
+                                            @if (job.IsActive)
+                                            {
+                                                <form asp-controller="StudentPlacement"
+                                                      asp-action="Apply"
+                                                      method="post">
+
+                                                    <input type="hidden"
+                                                           name="id"
+                                                           value="@job.JobOpeningId" />
+
+                                                    @Html.AntiForgeryToken()
+
+                                                    <button type="submit"
+                                                            class="btn btn-primary w-100">
+
+                                                        Apply Now
+
+                                                    </button>
+
+                                                </form>
+                                            }
+                                            else
+                                            {
+                                                <button class="btn btn-secondary w-100"
+                                                        disabled>
+
+                                                    Job Closed
+
+                                                </button>
+                                            }
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                            }
+
+                        </div>
+                    }
+
+                </div>
+
+            </div>
+        }
     }
 
 </div>

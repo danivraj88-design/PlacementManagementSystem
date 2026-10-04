@@ -1,0 +1,328 @@
+﻿@model PlacementManagementSystem.Models.JobOpening
+
+@{
+    ViewData["Title"] = "Create Job Opening";
+
+    var placementDrives =
+        ViewBag.PlacementDrives
+        as IEnumerable<PlacementManagementSystem.Models.PlacementDrive>;
+}
+
+<div class="container mt-5 mb-5">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+            <h1 class="fw-bold">Create Job Opening</h1>
+
+            <p class="text-muted">
+                Create a new placement opportunity for students.
+            </p>
+        </div>
+
+        <a asp-controller="Company"
+           asp-action="Jobs"
+           class="btn btn-outline-dark">
+            ← Back to Jobs
+        </a>
+
+    </div>
+
+    <div class="card shadow-sm">
+
+        <div class="card-header bg-dark text-white">
+            <h4 class="mb-0">
+                Job Opening Details
+            </h4>
+        </div>
+
+        <div class="card-body p-4">
+
+            <form asp-controller="Company"
+                  asp-action="Create"
+                  method="post">
+
+                @Html.AntiForgeryToken()
+
+                <div asp-validation-summary="ModelOnly"
+                     class="text-danger mb-3">
+                </div>
+
+
+                <!-- Job Title -->
+
+                <div class="mb-3">
+
+                    <label asp-for="JobTitle"
+                           class="form-label">
+                    </label>
+
+                    <input asp-for="JobTitle"
+                           class="form-control"
+                           placeholder="Example: Software Developer" />
+
+                    <span asp-validation-for="JobTitle"
+                          class="text-danger">
+                    </span>
+
+                </div>
+
+
+                <!-- Job Location -->
+
+                <div class="mb-3">
+
+                    <label asp-for="JobLocation"
+                           class="form-label">
+                    </label>
+
+                    <input asp-for="JobLocation"
+                           class="form-control"
+                           placeholder="Example: Ahmedabad / Remote" />
+
+                    <span asp-validation-for="JobLocation"
+                          class="text-danger">
+                    </span>
+
+                </div>
+
+
+                <!-- Employment Type -->
+
+                <div class="mb-3">
+
+                    <label asp-for="EmploymentType"
+                           class="form-label">
+                    </label>
+
+                    <select asp-for="EmploymentType"
+                            class="form-select">
+
+                        <option value="">
+                            Select Employment Type
+                        </option>
+
+                        <option value="Full Time">
+                            Full Time
+                        </option>
+
+                        <option value="Part Time">
+                            Part Time
+                        </option>
+
+                        <option value="Internship">
+                            Internship
+                        </option>
+
+                        <option value="Contract">
+                            Contract
+                        </option>
+
+                    </select>
+
+                    <span asp-validation-for="EmploymentType"
+                          class="text-danger">
+                    </span>
+
+                </div>
+
+
+                <!-- Salary -->
+
+                <div class="mb-3">
+
+                    <label asp-for="SalaryPackage"
+                           class="form-label">
+                    </label>
+
+                    <input asp-for="SalaryPackage"
+                           class="form-control"
+                           type="number"
+                           step="0.01"
+                           placeholder="Example: 600000" />
+
+                    <span asp-validation-for="SalaryPackage"
+                          class="text-danger">
+                    </span>
+
+                    <small class="text-muted">
+                        Enter annual salary/package amount.
+                    </small>
+
+                </div>
+
+
+                <!-- Eligibility -->
+
+                <div class="row">
+
+                    <div class="col-md-6 mb-3">
+
+                        <label asp-for="MinimumCGPA"
+                               class="form-label">
+                        </label>
+
+                        <input asp-for="MinimumCGPA"
+                               class="form-control"
+                               type="number"
+                               step="0.01"
+                               min="0"
+                               max="10"
+                               placeholder="Example: 7.0" />
+
+                        <span asp-validation-for="MinimumCGPA"
+                              class="text-danger">
+                        </span>
+
+                    </div>
+
+
+                    <div class="col-md-6 mb-3">
+
+                        <label asp-for="MaximumBacklogs"
+                               class="form-label">
+                        </label>
+
+                        <input asp-for="MaximumBacklogs"
+                               class="form-control"
+                               type="number"
+                               min="0"
+                               placeholder="Example: 2" />
+
+                        <span asp-validation-for="MaximumBacklogs"
+                              class="text-danger">
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Eligible Departments -->
+
+                <div class="mb-3">
+
+                    <label asp-for="EligibleDepartments"
+                           class="form-label">
+                    </label>
+
+                    <input asp-for="EligibleDepartments"
+                           class="form-control"
+                           placeholder="Example: Computer, IT, Electronics" />
+
+                    <span asp-validation-for="EligibleDepartments"
+                          class="text-danger">
+                    </span>
+
+                    <small class="text-muted">
+                        Enter departments separated by commas.
+                    </small>
+
+                </div>
+
+
+                <!-- Description -->
+
+                <div class="mb-3">
+
+                    <label asp-for="Description"
+                           class="form-label">
+                    </label>
+
+                    <textarea asp-for="Description"
+                              class="form-control"
+                              rows="5"
+                              placeholder="Describe the job role, responsibilities and requirements...">
+                    </textarea>
+
+                    <span asp-validation-for="Description"
+                          class="text-danger">
+                    </span>
+
+                </div>
+
+
+                <!-- Application Deadline -->
+
+                <div class="mb-3">
+
+                    <label asp-for="ApplicationDeadline"
+                           class="form-label">
+                    </label>
+
+                    <input asp-for="ApplicationDeadline"
+                           class="form-control"
+                           type="date" />
+
+                    <span asp-validation-for="ApplicationDeadline"
+                          class="text-danger">
+                    </span>
+
+                </div>
+
+
+                <!-- Placement Drive -->
+
+                <div class="mb-4">
+
+                    <label asp-for="PlacementDriveId"
+                           class="form-label">
+                        Placement Drive
+                    </label>
+
+                    <select asp-for="PlacementDriveId"
+                            class="form-select">
+
+                        <option value="">
+                            Select Placement Drive
+                        </option>
+
+                        @if (placementDrives != null)
+                        {
+                            foreach (var drive in placementDrives)
+                            {
+                                <option value="@drive.PlacementDriveId">
+                                    @drive.DriveName
+                                </option>
+                            }
+                        }
+
+                    </select>
+
+                    <span asp-validation-for="PlacementDriveId"
+                          class="text-danger">
+                    </span>
+
+                </div>
+
+
+                <!-- Buttons -->
+
+                <div class="d-flex gap-2">
+
+                    <button type="submit"
+                            class="btn btn-dark">
+                        Create Job Opening
+                    </button>
+
+                    <a asp-controller="Company"
+                       asp-action="Jobs"
+                       class="btn btn-outline-secondary">
+                        Cancel
+                    </a>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+@section Scripts {
+
+    <partial name="_ValidationScriptsPartial" />
+
+}

@@ -1,0 +1,184 @@
+﻿@model PlacementManagementSystem.Models.Company
+
+@{
+    ViewData["Title"] = "Company Profile";
+}
+
+<div class="container mt-5 mb-5">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="fw-bold">Company Profile</h1>
+            <p class="text-muted">
+                View your registered company information.
+            </p>
+        </div>
+
+        <a asp-controller="Company"
+           asp-action="Index"
+           class="btn btn-outline-dark">
+            ← Dashboard
+        </a>
+    </div>
+
+    <!-- Approval Status -->
+    @if (Model.IsApproved)
+    {
+        <div class="alert alert-success">
+            <strong>✓ Company Approved</strong>
+            <br />
+            Your company has been approved by the TPO.
+
+            @if (Model.ApprovedAt.HasValue)
+            {
+                <div class="mt-1">
+                    Approved on:
+                    @Model.ApprovedAt.Value.ToLocalTime().ToString("dd MMM yyyy")
+                </div>
+            }
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-warning">
+            <strong>⏳ Approval Pending</strong>
+            <br />
+            Your company registration is waiting for TPO approval.
+        </div>
+    }
+
+    <!-- Company Details -->
+
+    <div class="card shadow-sm">
+
+        <div class="card-header bg-dark text-white">
+            <h4 class="mb-0">Company Information</h4>
+        </div>
+
+        <div class="card-body">
+
+            <div class="row">
+
+                <div class="col-md-6 mb-4">
+                    <label class="fw-bold">Company Name</label>
+                    <div class="form-control bg-light">
+                        @Model.CompanyName
+                    </div>
+                </div>
+
+                <div class="col-md-6 mb-4">
+                    <label class="fw-bold">Contact Person</label>
+                    <div class="form-control bg-light">
+                        @Model.ContactPerson
+                    </div>
+                </div>
+
+                <div class="col-md-6 mb-4">
+                    <label class="fw-bold">Official Email</label>
+                    <div class="form-control bg-light">
+                        @Model.OfficialEmail
+                    </div>
+                </div>
+
+                <div class="col-md-6 mb-4">
+                    <label class="fw-bold">Phone Number</label>
+                    <div class="form-control bg-light">
+                        @(string.IsNullOrEmpty(Model.PhoneNumber)
+                            ? "Not provided"
+                            : Model.PhoneNumber)
+                    </div>
+                </div>
+
+                <div class="col-md-6 mb-4">
+                    <label class="fw-bold">Industry</label>
+                    <div class="form-control bg-light">
+                        @Model.Industry
+                    </div>
+                </div>
+
+                <div class="col-md-6 mb-4">
+                    <label class="fw-bold">Website</label>
+                    <div class="form-control bg-light">
+                        @if (!string.IsNullOrEmpty(Model.Website))
+                        {
+                            <a href="@Model.Website"
+                               target="_blank">
+                                @Model.Website
+                            </a>
+                        }
+                        else
+                        {
+                            <span>Not provided</span>
+                        }
+                    </div>
+                </div>
+
+                <div class="col-12 mb-4">
+                    <label class="fw-bold">Company Address</label>
+                    <div class="form-control bg-light"
+                         style="min-height: 70px;">
+                        @(string.IsNullOrEmpty(Model.Address)
+                            ? "Not provided"
+                            : Model.Address)
+                    </div>
+                </div>
+
+                <div class="col-12 mb-4">
+                    <label class="fw-bold">Company Description</label>
+                    <div class="form-control bg-light"
+                         style="min-height: 100px;">
+                        @(string.IsNullOrEmpty(Model.Description)
+                            ? "Not provided"
+                            : Model.Description)
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Account Information -->
+
+    <div class="card shadow-sm mt-4">
+
+        <div class="card-header">
+            <h5 class="mb-0">Account Information</h5>
+        </div>
+
+        <div class="card-body">
+
+            <div class="row">
+
+                <div class="col-md-6">
+                    <strong>Registration Date</strong>
+                    <p class="text-muted">
+                        @Model.CreatedAt.ToLocalTime().ToString("dd MMMM yyyy")
+                    </p>
+                </div>
+
+                <div class="col-md-6">
+                    <strong>Account Status</strong>
+
+                    <p>
+                        @if (Model.IsApproved)
+                        {
+                            <span class="badge bg-success">
+                                Approved
+                            </span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-warning text-dark">
+                                Pending Approval
+                            </span>
+                        }
+                    </p>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+</div>

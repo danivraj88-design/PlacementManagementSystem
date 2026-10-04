@@ -1,0 +1,297 @@
+﻿@page
+@model PlacementManagementSystem.Areas.Identity.Pages.Account.CompanyRegisterModel
+
+@{
+    Layout = "/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Company Registration";
+}
+
+<div class="container mt-5 mb-5">
+
+    <div class="row justify-content-center">
+
+        <div class="col-md-8">
+
+            <div class="card shadow">
+
+                <div class="card-header bg-dark text-white text-center">
+
+                    <h3 class="mb-0">
+                        Company Registration
+                    </h3>
+
+                </div>
+
+                <div class="card-body p-4">
+
+                    <p class="text-muted text-center mb-4">
+                        Register your company for campus placement
+                        and recruitment activities.
+                    </p>
+
+                    <form method="post">
+
+                        @Html.AntiForgeryToken()
+
+                        <div asp-validation-summary="ModelOnly"
+                             class="text-danger mb-3">
+                        </div>
+
+                        <!-- Company Name -->
+                        <div class="mb-3">
+
+                            <label asp-for="Input.CompanyName"
+                                   class="form-label">
+                                Company Name
+                            </label>
+
+                            <input asp-for="Input.CompanyName"
+                                   class="form-control"
+                                   placeholder="Enter company name" />
+
+                            <span asp-validation-for="Input.CompanyName"
+                                  class="text-danger">
+                            </span>
+
+                        </div>
+
+                        <!-- Contact Person -->
+                        <div class="mb-3">
+
+                            <label asp-for="Input.ContactPerson"
+                                   class="form-label">
+                                Contact Person
+                            </label>
+
+                            <input asp-for="Input.ContactPerson"
+                                   class="form-control"
+                                   placeholder="Enter HR / Contact Person" />
+
+                            <span asp-validation-for="Input.ContactPerson"
+                                  class="text-danger">
+                            </span>
+
+                        </div>
+
+                        <!-- Official Email -->
+                        <div class="mb-3">
+
+                            <label asp-for="Input.Email"
+                                   class="form-label">
+                                Official Email
+                            </label>
+
+                            <input asp-for="Input.Email"
+                                   class="form-control"
+                                   placeholder="hr@company.com" />
+
+                            <span asp-validation-for="Input.Email"
+                                  class="text-danger">
+                            </span>
+
+                        </div>
+
+                        <!-- Phone -->
+                        <div class="mb-3">
+
+                            <label asp-for="Input.PhoneNumber"
+                                   class="form-label">
+                                Phone Number
+                            </label>
+
+                            <input asp-for="Input.PhoneNumber"
+                                   class="form-control"
+                                   placeholder="Enter phone number" />
+
+                            <span asp-validation-for="Input.PhoneNumber"
+                                  class="text-danger">
+                            </span>
+
+                        </div>
+
+                        <!-- Industry -->
+                        <div class="mb-3">
+
+                            <label asp-for="Input.Industry"
+                                   class="form-label">
+                                Industry
+                            </label>
+
+                            <select asp-for="Input.Industry"
+                                    class="form-select">
+
+                                <option value="">
+                                    Select Industry
+                                </option>
+
+                                <option value="IT">
+                                    Information Technology
+                                </option>
+
+                                <option value="Finance">
+                                    Finance
+                                </option>
+
+                                <option value="Manufacturing">
+                                    Manufacturing
+                                </option>
+
+                                <option value="Healthcare">
+                                    Healthcare
+                                </option>
+
+                                <option value="Consulting">
+                                    Consulting
+                                </option>
+
+                                <option value="Education">
+                                    Education
+                                </option>
+
+                                <option value="Other">
+                                    Other
+                                </option>
+
+                            </select>
+
+                            <span asp-validation-for="Input.Industry"
+                                  class="text-danger">
+                            </span>
+
+                        </div>
+
+                        <!-- Website -->
+                        <div class="mb-3">
+
+                            <label asp-for="Input.Website"
+                                   class="form-label">
+                                Website
+                            </label>
+
+                            <input asp-for="Input.Website"
+                                   class="form-control"
+                                   placeholder="https://www.example.com" />
+
+                            <span asp-validation-for="Input.Website"
+                                  class="text-danger">
+                            </span>
+
+                        </div>
+
+                        <!-- Address -->
+                        <div class="mb-3">
+
+                            <label asp-for="Input.Address"
+                                   class="form-label">
+                                Company Address
+                            </label>
+
+                            <textarea asp-for="Input.Address"
+                                      class="form-control"
+                                      rows="3"
+                                      placeholder="Enter company address"></textarea>
+
+                            <span asp-validation-for="Input.Address"
+                                  class="text-danger">
+                            </span>
+
+                        </div>
+
+                        <!-- Description -->
+                        <div class="mb-3">
+
+                            <label asp-for="Input.Description"
+                                   class="form-label">
+                                Company Description
+                            </label>
+
+                            <textarea asp-for="Input.Description"
+                                      class="form-control"
+                                      rows="4"
+                                      placeholder="Describe your company"></textarea>
+
+                            <span asp-validation-for="Input.Description"
+                                  class="text-danger">
+                            </span>
+
+                        </div>
+
+                        <!-- Password -->
+                        <div class="mb-3">
+
+                            <label asp-for="Input.Password"
+                                   class="form-label">
+                                Password
+                            </label>
+
+                            <input asp-for="Input.Password"
+                                   class="form-control"
+                                   placeholder="Enter password" />
+
+                            <span asp-validation-for="Input.Password"
+                                  class="text-danger">
+                            </span>
+
+                        </div>
+
+                        <!-- Confirm Password -->
+                        <div class="mb-4">
+
+                            <label asp-for="Input.ConfirmPassword"
+                                   class="form-label">
+                                Confirm Password
+                            </label>
+
+                            <input asp-for="Input.ConfirmPassword"
+                                   class="form-control"
+                                   placeholder="Confirm password" />
+
+                            <span asp-validation-for="Input.ConfirmPassword"
+                                  class="text-danger">
+                            </span>
+
+                        </div>
+
+                        <button type="submit"
+                                class="btn btn-dark w-100">
+                            Create Company Account
+                        </button>
+
+                    </form>
+
+                    <div class="text-center mt-4">
+
+                        <span class="text-muted">
+                            Already have a company account?
+                        </span>
+
+                        <a asp-page="/Account/Login"
+                           asp-route-role="Company">
+                            Login here
+                        </a>
+
+                    </div>
+
+                    <div class="text-center mt-2">
+
+                        <a asp-page="/Account/ChooseRole">
+                            ← Change account type
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+@section Scripts {
+
+    <partial name="_ValidationScriptsPartial" />
+
+}
