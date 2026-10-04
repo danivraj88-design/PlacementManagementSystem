@@ -8,10 +8,23 @@ namespace PlacementManagementSystem.Models
         [Key]
         public int CompanyId { get; set; }
 
+        // Identity user connected to this company account
+        [Required]
+        public string UserId { get; set; } = string.Empty;
+
+        [ForeignKey(nameof(UserId))]
+        public ApplicationUser? User { get; set; }
+
+        // Company information
         [Required]
         [StringLength(150)]
         [Display(Name = "Company Name")]
         public string CompanyName { get; set; } = string.Empty;
+
+        [Required]
+        [StringLength(100)]
+        [Display(Name = "Contact Person")]
+        public string ContactPerson { get; set; } = string.Empty;
 
         [Required]
         [EmailAddress]
@@ -19,16 +32,14 @@ namespace PlacementManagementSystem.Models
         [Display(Name = "Official Email")]
         public string OfficialEmail { get; set; } = string.Empty;
 
-        [StringLength(100)]
-        [Display(Name = "Contact Person")]
-        public string? ContactPerson { get; set; }
-
         [Phone]
         [StringLength(20)]
-        public string? Phone { get; set; }
+        [Display(Name = "Phone Number")]
+        public string? PhoneNumber { get; set; }
 
+        [Required]
         [StringLength(100)]
-        public string? Industry { get; set; }
+        public string Industry { get; set; } = string.Empty;
 
         [Url]
         [StringLength(300)]
@@ -37,19 +48,16 @@ namespace PlacementManagementSystem.Models
         [StringLength(500)]
         public string? Address { get; set; }
 
-        public bool IsApproved { get; set; } = false;
+        [StringLength(1000)]
+        public string? Description { get; set; }
 
-        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+        // TPO approval
+        public bool IsApproved { get; set; } = false;
 
         public DateTime? ApprovedAt { get; set; }
 
-        // Identity user who owns this company account
-        public string? UserId { get; set; }
+        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
-        [ForeignKey(nameof(UserId))]
-        public ApplicationUser? User { get; set; }
-
-        public ICollection<JobOpening> JobOpenings { get; set; }
-            = new List<JobOpening>();
+        public DateTime? UpdatedAt { get; set; }
     }
 }
