@@ -1,0 +1,125 @@
+﻿@{
+    ViewData["Title"] = "Placement Reports";
+}
+
+<div class="container mt-4">
+
+    <div class="d-flex justify-content-between mb-4">
+
+        <div>
+            <h1>Placement Reports</h1>
+
+            <p class="text-muted">
+                Placement management statistics.
+            </p>
+        </div>
+
+        <a asp-controller="TPO"
+           asp-action="Index"
+           class="btn btn-secondary">
+            Dashboard
+        </a>
+
+    </div>
+
+    <div class="row">
+
+        <div class="col-md-4 mb-4">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h5>Total Students</h5>
+                    <h2>@ViewBag.TotalStudents</h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-4">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h5>Total Companies</h5>
+                    <h2>@ViewBag.TotalCompanies</h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-4">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h5>Job Openings</h5>
+                    <h2>@ViewBag.TotalJobs</h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-4">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h5>Total Applications</h5>
+                    <h2>@ViewBag.TotalApplications</h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-4">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h5>Shortlisted</h5>
+                    <h2>@ViewBag.ShortlistedStudents</h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-4">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h5>Selected Students</h5>
+                    <h2>@ViewBag.SelectedStudents</h2>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="card shadow-sm mt-3">
+
+        <div class="card-header">
+            Placement Summary
+        </div>
+
+        <div class="card-body">
+
+            <p>
+                Total students registered:
+                <strong>@ViewBag.TotalStudents</strong>
+            </p>
+
+            <p>
+                Companies registered:
+                <strong>@ViewBag.TotalCompanies</strong>
+            </p>
+
+            <p>
+                Job openings:
+                <strong>@ViewBag.TotalJobs</strong>
+            </p>
+
+            <p>
+                Applications received:
+                <strong>@ViewBag.TotalApplications</strong>
+            </p>
+
+            <p>
+                Students selected:
+                <strong>@ViewBag.SelectedStudents</strong>
+            </p>
+
+            <p>
+                Applications rejected:
+                <strong>@ViewBag.RejectedApplications</strong>
+            </p>
+
+        </div>
+
+    </div>
+
+</div>

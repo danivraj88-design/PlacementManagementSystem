@@ -1,0 +1,116 @@
+﻿@model PlacementManagementSystem.Models.PlacementDrive
+
+@{
+    ViewData["Title"] = "Create Placement Drive";
+}
+
+<div class="container mt-4">
+
+    <div class="row justify-content-center">
+
+        <div class="col-md-8">
+
+            <div class="card shadow">
+
+                <div class="card-header bg-primary text-white">
+                    <h3>Create Placement Drive</h3>
+                </div>
+
+                <div class="card-body">
+
+                    <form asp-action="Create"
+                          method="post">
+
+                        @Html.AntiForgeryToken()
+
+                        <div asp-validation-summary="ModelOnly"
+                             class="text-danger">
+                        </div>
+
+                        <div class="mb-3">
+
+                            <label asp-for="DriveName"
+                                   class="form-label">
+                            </label>
+
+                            <input asp-for="DriveName"
+                                   class="form-control" />
+
+                            <span asp-validation-for="DriveName"
+                                  class="text-danger">
+                            </span>
+
+                        </div>
+
+                        <div class="mb-3">
+
+                            <label asp-for="Description"
+                                   class="form-label">
+                            </label>
+
+                            <textarea asp-for="Description"
+                                      class="form-control"
+                                      rows="4">
+                            </textarea>
+
+                        </div>
+
+                        <div class="mb-3">
+
+                            <label asp-for="DriveDate"
+                                   class="form-label">
+                            </label>
+
+                            <input asp-for="DriveDate"
+                                   type="date"
+                                   class="form-control" />
+
+                        </div>
+
+                        <div class="mb-3">
+
+                            <label asp-for="Venue"
+                                   class="form-label">
+                            </label>
+
+                            <input asp-for="Venue"
+                                   class="form-control" />
+
+                        </div>
+
+                        <div class="form-check mb-3">
+
+                            <input asp-for="IsActive"
+                                   class="form-check-input" />
+
+                            <label asp-for="IsActive"
+                                   class="form-check-label">
+                            </label>
+
+                        </div>
+
+                        <button type="submit"
+                                class="btn btn-primary">
+                            Create Drive
+                        </button>
+
+                        <a asp-action="Index"
+                           class="btn btn-secondary">
+                            Cancel
+                        </a>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

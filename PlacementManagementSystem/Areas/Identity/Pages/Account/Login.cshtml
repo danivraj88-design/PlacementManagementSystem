@@ -1,0 +1,171 @@
+@page
+@model LoginModel
+
+@{
+    Layout = "/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = $"{Model.SelectedRole} Login";
+}
+
+<div class="container mt-5 mb-5">
+
+    <div class="row justify-content-center">
+
+        <div class="col-md-5">
+
+            <div class="card shadow">
+
+                <div class="card-header text-center bg-primary text-white">
+                    <h3 class="mb-0">@Model.SelectedRole Login</h3>
+                </div>
+
+                <div class="card-body p-4">
+
+                    <div class="text-center mb-4">
+                        <p class="text-muted">
+                            Login to your @Model.SelectedRole account
+                        </p>
+                    </div>
+
+                    <form id="account"
+                          method="post"
+                          asp-route-role="@Model.SelectedRole">
+
+                        @Html.AntiForgeryToken()
+
+                        <input type="hidden"
+                               name="role"
+                               value="@Model.SelectedRole" />
+
+                        <div asp-validation-summary="ModelOnly"
+                             class="text-danger mb-3"
+                             role="alert">
+                        </div>
+
+                        <!-- Email -->
+                        <div class="form-floating mb-3">
+
+                            <input asp-for="Input.Email"
+                                   class="form-control"
+                                   autocomplete="username"
+                                   aria-required="true"
+                                   placeholder="name@example.com" />
+
+                            <label asp-for="Input.Email">
+                                Email
+                            </label>
+
+                            <span asp-validation-for="Input.Email"
+                                  class="text-danger">
+                            </span>
+
+                        </div>
+
+                        <!-- Password -->
+                        <div class="form-floating mb-3">
+
+                            <input asp-for="Input.Password"
+                                   class="form-control"
+                                   autocomplete="current-password"
+                                   aria-required="true"
+                                   placeholder="Password" />
+
+                            <label asp-for="Input.Password">
+                                Password
+                            </label>
+
+                            <span asp-validation-for="Input.Password"
+                                  class="text-danger">
+                            </span>
+
+                        </div>
+
+                        <!-- Remember Me -->
+                        <div class="form-check mb-3">
+
+                            <input class="form-check-input"
+                                   asp-for="Input.RememberMe" />
+
+                            <label class="form-check-label"
+                                   asp-for="Input.RememberMe">
+                                Remember me
+                            </label>
+
+                        </div>
+
+                        <!-- Login -->
+                        <button id="login-submit"
+                                type="submit"
+                                class="w-100 btn btn-primary btn-lg">
+                            Login as @Model.SelectedRole
+                        </button>
+
+                    </form>
+
+                    <hr />
+
+                    <!-- Links -->
+
+                    <div class="text-center">
+
+                        <p>
+                            <a id="forgot-password"
+                               asp-page="./ForgotPassword"
+                               asp-route-returnUrl="@Model.ReturnUrl">
+                                Forgot your password?
+                            </a>
+                        </p>
+
+                        @if (Model.SelectedRole == "Student")
+                        {
+                            <p>
+                                Don't have a Student account?
+
+                                <a asp-page="./Register">
+                                    Register as Student
+                                </a>
+                            </p>
+                        }
+
+                        @if (Model.SelectedRole == "TPO")
+                        {
+                            <p>
+                                Don't have a TPO account?
+
+                                <a asp-page="./TPORegister">
+                                    Register as TPO
+                                </a>
+                            </p>
+                        }
+
+                        @if (Model.SelectedRole == "Company")
+                        {
+                            <p>
+                                Don't have a Company account?
+
+                                <a asp-page="./CompanyRegister">
+                                    Register as Company
+                                </a>
+                            </p>
+                        }
+
+                        <p>
+                            <a asp-page="./ChooseRole">
+                                ← Change account type
+                            </a>
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

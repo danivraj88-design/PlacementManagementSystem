@@ -1,0 +1,90 @@
+﻿@model PlacementManagementSystem.Models.Student
+
+@{
+    ViewData["Title"] = "Student Details";
+}
+
+<div class="container mt-4">
+
+    <div class="d-flex justify-content-between mb-4">
+
+        <h1>Student Details</h1>
+
+        <a asp-action="Index"
+           class="btn btn-secondary">
+            Back
+        </a>
+
+    </div>
+
+    <div class="card shadow">
+
+        <div class="card-header bg-primary text-white">
+            <h4 class="mb-0">@Model.FullName</h4>
+        </div>
+
+        <div class="card-body">
+
+            <div class="row">
+
+                <div class="col-md-6">
+                    <p>
+                        <strong>Roll Number:</strong>
+                        @Model.RollNumber
+                    </p>
+
+                    <p>
+                        <strong>Department:</strong>
+                        @Model.Department
+                    </p>
+
+                    <p>
+                        <strong>Phone:</strong>
+                        @Model.PhoneNumber
+                    </p>
+
+                    <p>
+                        <strong>Email:</strong>
+                        @Model.User?.Email
+                    </p>
+                </div>
+
+                <div class="col-md-6">
+
+                    <p>
+                        <strong>10th:</strong>
+                        @Model.TenthPercentage%
+                    </p>
+
+                    <p>
+                        <strong>12th:</strong>
+                        @Model.TwelfthPercentage%
+                    </p>
+
+                    <p>
+                        <strong>CGPA:</strong>
+                        @Model.CurrentCGPA
+                    </p>
+
+                    <p>
+                        <strong>Active Backlogs:</strong>
+                        @Model.ActiveBacklogs
+                    </p>
+
+                </div>
+
+            </div>
+
+            <hr />
+
+            <h5>Skills</h5>
+
+            <p>
+                @(string.IsNullOrWhiteSpace(Model.Skills)
+                    ? "No skills added."
+                    : Model.Skills)
+            </p>
+
+        </div>
+    </div>
+</div>
