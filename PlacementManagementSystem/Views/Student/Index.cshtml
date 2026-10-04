@@ -4,41 +4,45 @@
     ViewData["Title"] = "Student Dashboard";
 }
 
-<div class="container mt-4">
+<div class="container mt-4 mb-5">
 
-    <div class="d-flex justify-content-between align-items-center mb-4">
+    <!-- Dashboard Header -->
+    <div class="d-flex justify-content-between align-items-center mb-5">
 
         <div>
-            <h2>Student Dashboard</h2>
+            <h1>Student Dashboard</h1>
+
             <p class="text-muted">
                 Welcome, @Model.FullName!
             </p>
         </div>
 
-        <a asp-controller="Student"
-           asp-action="Profile"
-           class="btn btn-primary">
-            My Profile
-        </a>
+        <div>
+            <a asp-controller="Student"
+               asp-action="Profile"
+               class="btn btn-primary">
+                My Profile
+            </a>
+        </div>
 
     </div>
 
 
-    <!-- PROFILE SUMMARY -->
+    <!-- Main Dashboard Cards -->
+    <div class="row mb-4">
 
-    <div class="row g-4">
-
-        <div class="col-md-4">
+        <!-- My Profile -->
+        <div class="col-md-4 mb-4">
 
             <div class="card shadow-sm h-100">
 
                 <div class="card-body">
 
-                    <h5 class="card-title">
+                    <h3 class="card-title">
                         👤 My Profile
-                    </h5>
+                    </h3>
 
-                    <p class="text-muted">
+                    <p class="card-text text-muted">
                         View and update your personal and academic
                         information.
                     </p>
@@ -56,26 +60,27 @@
         </div>
 
 
-        <!-- PLACEMENT DRIVES -->
-
-        <div class="col-md-4">
+        <!-- Placement Drives -->
+        <div class="col-md-4 mb-4">
 
             <div class="card shadow-sm h-100">
 
                 <div class="card-body">
 
-                    <h5 class="card-title">
+                    <h3 class="card-title">
                         💼 Placement Drives
-                    </h5>
+                    </h3>
 
-                    <p class="text-muted">
-                        View available company placement drives.
+                    <p class="card-text text-muted">
+                        View available company placement drives
+                        and job opportunities.
                     </p>
 
-                    <button class="btn btn-outline-success"
-                            disabled>
-                        Coming Soon
-                    </button>
+                    <a asp-controller="StudentPlacement"
+                       asp-action="Drives"
+                       class="btn btn-outline-success">
+                        View Placement Drives
+                    </a>
 
                 </div>
 
@@ -84,26 +89,27 @@
         </div>
 
 
-        <!-- APPLICATIONS -->
-
-        <div class="col-md-4">
+        <!-- My Applications -->
+        <div class="col-md-4 mb-4">
 
             <div class="card shadow-sm h-100">
 
                 <div class="card-body">
 
-                    <h5 class="card-title">
+                    <h3 class="card-title">
                         📋 My Applications
-                    </h5>
+                    </h3>
 
-                    <p class="text-muted">
-                        Track your placement applications.
+                    <p class="card-text text-muted">
+                        Track your placement applications
+                        and their current status.
                     </p>
 
-                    <button class="btn btn-outline-warning"
-                            disabled>
-                        Coming Soon
-                    </button>
+                    <a asp-controller="StudentPlacement"
+                       asp-action="Applications"
+                       class="btn btn-outline-warning">
+                        View Applications
+                    </a>
 
                 </div>
 
@@ -114,15 +120,14 @@
     </div>
 
 
-    <!-- ACADEMIC INFORMATION -->
-
-    <div class="card shadow-sm mt-4">
+    <!-- Academic Information -->
+    <div class="card shadow-sm mb-4">
 
         <div class="card-header bg-primary text-white">
 
-            <h5 class="mb-0">
+            <h3 class="mb-0">
                 Academic Information
-            </h5>
+            </h3>
 
         </div>
 
@@ -130,66 +135,111 @@
 
             <div class="row">
 
-                <div class="col-md-4">
+                <!-- Roll Number -->
+                <div class="col-md-4 mb-4">
 
-                    <strong>Roll Number</strong>
+                    <strong>
+                        Roll Number
+                    </strong>
 
-                    <p>
+                    <p class="mb-0">
                         @Model.RollNumber
                     </p>
 
                 </div>
 
-                <div class="col-md-4">
 
-                    <strong>Department</strong>
+                <!-- Department -->
+                <div class="col-md-4 mb-4">
 
-                    <p>
+                    <strong>
+                        Department
+                    </strong>
+
+                    <p class="mb-0">
                         @Model.Department
                     </p>
 
                 </div>
 
-                <div class="col-md-4">
 
-                    <strong>Current CGPA</strong>
+                <!-- CGPA -->
+                <div class="col-md-4 mb-4">
 
-                    <p>
-                        @(Model.CurrentCGPA?.ToString("0.00") ?? "Not Added")
+                    <strong>
+                        Current CGPA
+                    </strong>
+
+                    <p class="mb-0">
+
+                        @if (Model.CurrentCGPA.HasValue)
+                        {
+                            @Model.CurrentCGPA.Value.ToString("0.00")
+                        }
+                        else
+                        {
+                            <span>Not entered</span>
+                        }
+
                     </p>
 
                 </div>
 
-            </div>
 
+                <!-- 10th -->
+                <div class="col-md-4 mb-4">
 
-            <div class="row">
+                    <strong>
+                        10th Percentage
+                    </strong>
 
-                <div class="col-md-4">
+                    <p class="mb-0">
 
-                    <strong>10th Percentage</strong>
+                        @if (Model.TenthPercentage.HasValue)
+                        {
+                            @Model.TenthPercentage.Value.ToString("0.00")
+                        }
+                        else
+                        {
+                            <span>Not entered</span>
+                        }
 
-                    <p>
-                        @(Model.TenthPercentage?.ToString("0.00") ?? "Not Added")
                     </p>
 
                 </div>
 
-                <div class="col-md-4">
 
-                    <strong>12th Percentage</strong>
+                <!-- 12th -->
+                <div class="col-md-4 mb-4">
 
-                    <p>
-                        @(Model.TwelfthPercentage?.ToString("0.00") ?? "Not Added")
+                    <strong>
+                        12th Percentage
+                    </strong>
+
+                    <p class="mb-0">
+
+                        @if (Model.TwelfthPercentage.HasValue)
+                        {
+                            @Model.TwelfthPercentage.Value.ToString("0.00")
+                        }
+                        else
+                        {
+                            <span>Not entered</span>
+                        }
+
                     </p>
 
                 </div>
 
-                <div class="col-md-4">
 
-                    <strong>Active Backlogs</strong>
+                <!-- Active Backlogs -->
+                <div class="col-md-4 mb-4">
 
-                    <p>
+                    <strong>
+                        Active Backlogs
+                    </strong>
+
+                    <p class="mb-0">
                         @Model.ActiveBacklogs
                     </p>
 
@@ -202,13 +252,14 @@
     </div>
 
 
-    <!-- PROFILE STATUS -->
-
-    <div class="card shadow-sm mt-4 mb-5">
+    <!-- Profile Status -->
+    <div class="card shadow-sm">
 
         <div class="card-body">
 
-            <h5>Profile Status</h5>
+            <h3>
+                Profile Status
+            </h3>
 
             @if (Model.IsProfileVerified)
             {
@@ -220,13 +271,6 @@
             {
                 <span class="badge bg-warning text-dark">
                     Not Verified
-                </span>
-            }
-
-            @if (Model.IsProfileFrozen)
-            {
-                <span class="badge bg-danger ms-2">
-                    Profile Frozen
                 </span>
             }
 
