@@ -1,0 +1,151 @@
+﻿@model IEnumerable<PlacementManagementSystem.Models.PlacementApplication>
+
+@{
+    ViewData["Title"] = "My Applications";
+}
+
+<div class="container mt-4 mb-5">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+            <h1>My Applications</h1>
+
+            <p class="text-muted">
+                Track your placement applications and their status.
+            </p>
+        </div>
+
+        <div>
+
+            <a asp-controller="Student"
+               asp-action="Index"
+               class="btn btn-secondary">
+                Dashboard
+            </a>
+
+            <a asp-controller="StudentPlacement"
+               asp-action="Drives"
+               class="btn btn-primary">
+                Browse Drives
+            </a>
+
+        </div>
+
+    </div>
+
+
+    @if (!Model.Any())
+    {
+        <div class="alert alert-info">
+
+            <h5>No applications yet.</h5>
+
+            <p class="mb-0">
+                You have not applied for any placement opportunity.
+            </p>
+
+        </div>
+    }
+    else
+    {
+        <div class="card shadow-sm">
+
+            <div class="card-body">
+
+                <div class="table-responsive">
+
+                    <table class="table table-bordered table-hover">
+
+                        <thead class="table-dark">
+
+                            <tr>
+
+                                <th>Job</th>
+
+                                <th>Company</th>
+
+                                <th>Placement Drive</th>
+
+                                <th>Applied Date</th>
+
+                                <th>Status</th>
+
+                            </tr>
+
+                        </thead>
+
+                        <tbody>
+
+                            @foreach (var application in Model)
+                            {
+                                <tr>
+
+                                    <td>
+                                        @application.JobOpening?.JobTitle
+                                    </td>
+
+                                    <td>
+                                        @application.JobOpening?.Company?.CompanyName
+                                    </td>
+
+                                    <td>
+                                        @(application.JobOpening?.PlacementDrive?.DriveName
+                                            ?? "General Placement")
+                                    </td>
+
+                                    <td>
+                                        @application.AppliedAt.ToLocalTime()
+                                        .ToString("dd-MM-yyyy hh:mm tt")
+                                    </td>
+
+                                    <td>
+
+                                        @if (application.Status == "Selected")
+                                        {
+                                            <span class="badge bg-success">
+                                                Selected
+                                            </span>
+                                        }
+                                        else if (application.Status == "Rejected")
+                                        {
+                                            <span class="badge bg-danger">
+                                                Rejected
+                                            </span>
+                                        }
+                                        else if (application.Status == "Shortlisted")
+                                        {
+                                            <span class="badge bg-warning text-dark">
+                                                Shortlisted
+                                            </span>
+                                        }
+                                        else if (application.Status == "Interview")
+                                        {
+                                            <span class="badge bg-info text-dark">
+                                                Interview
+                                            </span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge bg-primary">
+                                                @application.Status
+                                            </span>
+                                        }
+
+                                    </td>
+
+                                </tr>
+                            }
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </div>
+    }
+
+</div>
