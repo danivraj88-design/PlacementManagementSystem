@@ -3,109 +3,115 @@
 
 @{
     Layout = "/Views/Shared/_Layout.cshtml";
-    ViewData["Title"] = "Select Account Type";
+    ViewData["Title"] = "Choose Account Type";
 }
 
-<div class="container mt-5 mb-5">
-
-    <div class="text-center mb-5">
-        <h1>Placement Management System</h1>
-        <p class="text-muted">
-            Select your account type
-        </p>
-    </div>
-
+<div class="container mt-5">
     <div class="row justify-content-center">
+        <div class="col-md-8">
 
-        <!-- ================= STUDENT ================= -->
-        <div class="col-md-4 mb-4">
-            <div class="card shadow-sm h-100 text-center">
+            <div class="card shadow">
 
-                <div class="card-body p-4">
+                <div class="card-header bg-dark text-white text-center">
+                    <h2 class="mb-0">Placement Management System</h2>
+                </div>
 
-                    <h3 class="mb-3">Student</h3>
+                <div class="card-body p-5">
 
-                    <p class="text-muted">
-                        Manage your profile, applications,
-                        placements and opportunities.
+                    <h3 class="text-center mb-2">
+                        Choose Account Type
+                    </h3>
+
+                    <p class="text-center text-muted mb-4">
+                        Select how you want to access the placement management system.
                     </p>
 
-                    <a asp-page="/Account/Login"
-                       asp-route-role="Student"
-                       class="btn btn-primary w-100 mb-2">
-                        Student Login
-                    </a>
+                    <!-- Student -->
 
-                    <a asp-page="/Account/Register"
-                       class="btn btn-outline-primary w-100">
-                        Student Registration
-                    </a>
+                    <div class="card mb-3 border">
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                🎓 Student
+                            </h5>
+
+                            <p class="card-text text-muted">
+                                View placement drives, maintain your profile,
+                                and apply for available jobs.
+                            </p>
+
+                            <a asp-page="/Account/Login"
+                               asp-route-role="Student"
+                               class="btn btn-primary w-100 mb-2">
+                                Student Login
+                            </a>
+
+                            <a asp-page="/Account/Register"
+                               class="btn btn-outline-primary w-100">
+                                Student Registration
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- TPO -->
+
+                    <div class="card mb-3 border">
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                👨‍💼 Training & Placement Officer
+                            </h5>
+
+                            <p class="card-text text-muted">
+                                Manage students, companies, placement drives,
+                                and recruitment activities.
+                            </p>
+
+                            <a asp-page="/Account/Login"
+                               asp-route-role="TPO"
+                               class="btn btn-success w-100 mb-2">
+                                TPO Login
+                            </a>
+
+                            <a asp-page="/Account/TPORegister"
+                               class="btn btn-outline-success w-100">
+                                TPO Registration
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Company -->
+
+                    <div class="card mb-3 border">
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                🏢 Company
+                            </h5>
+
+                            <p class="card-text text-muted">
+                                Register your company, create job openings,
+                                and manage student applications.
+                            </p>
+
+                            <a asp-page="/Account/Login"
+                               asp-route-role="Company"
+                               class="btn btn-dark w-100 mb-2">
+                                Company Login
+                            </a>
+
+                            <a asp-page="/Account/CompanyRegister"
+                               class="btn btn-outline-dark w-100">
+                                Company Registration
+                            </a>
+                        </div>
+                    </div>
 
                 </div>
 
-            </div>
-        </div>
-
-
-        <!-- ================= TPO ================= -->
-        <div class="col-md-4 mb-4">
-            <div class="card shadow-sm h-100 text-center">
-
-                <div class="card-body p-4">
-
-                    <h3 class="mb-3">TPO</h3>
-
-                    <p class="text-muted">
-                        Manage students, companies,
-                        placements and recruitment activities.
-                    </p>
-
-                    <a asp-page="/Account/Login"
-                       asp-route-role="TPO"
-                       class="btn btn-success w-100 mb-2">
-                        TPO Login
-                    </a>
-
-                    <a asp-page="/Account/TPORegister"
-                       class="btn btn-outline-success w-100">
-                        TPO Registration
-                    </a>
-
+                <div class="card-footer text-center text-muted">
+                    Placement Management System
                 </div>
 
             </div>
+
         </div>
-
-
-        <!-- ================= COMPANY ================= -->
-        <div class="col-md-4 mb-4">
-            <div class="card shadow-sm h-100 text-center">
-
-                <div class="card-body p-4">
-
-                    <h3 class="mb-3">Company</h3>
-
-                    <p class="text-muted">
-                        Manage company details, job openings
-                        and student applications.
-                    </p>
-
-                    <a asp-page="/Account/Login"
-                       asp-route-role="Company"
-                       class="btn btn-dark w-100 mb-2">
-                        Company Login
-                    </a>
-
-                    <a asp-page="/Account/CompanyRegister"
-                       class="btn btn-outline-dark w-100">
-                        Company Registration
-                    </a>
-
-                </div>
-
-            </div>
-        </div>
-
     </div>
-
 </div>

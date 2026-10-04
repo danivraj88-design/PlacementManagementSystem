@@ -1,0 +1,234 @@
+﻿@model PlacementManagementSystem.Models.PlacementDrive
+
+@{
+    ViewData["Title"] = "Placement Drive Details";
+}
+
+<div class="container mt-5 mb-5">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+            <h1 class="fw-bold">Placement Drive Details</h1>
+
+            <p class="text-muted">
+                View complete information about this placement drive.
+            </p>
+        </div>
+
+        <a asp-controller="PlacementDrive"
+           asp-action="Index"
+           class="btn btn-outline-dark">
+            ← Back to Drives
+        </a>
+
+    </div>
+
+
+    <!-- Drive Information -->
+
+    <div class="card shadow-sm mb-4">
+
+        <div class="card-header bg-dark text-white">
+            <h4 class="mb-0">
+                @Model.DriveName
+            </h4>
+        </div>
+
+        <div class="card-body">
+
+            <div class="row">
+
+                <div class="col-md-6 mb-4">
+
+                    <strong>Drive Name</strong>
+
+                    <p class="form-control bg-light">
+                        @Model.DriveName
+                    </p>
+
+                </div>
+
+
+                <div class="col-md-6 mb-4">
+
+                    <strong>Drive Date</strong>
+
+                    <p class="form-control bg-light">
+                        @Model.DriveDate.ToString("dd MMMM yyyy")
+                    </p>
+
+                </div>
+
+
+                <div class="col-md-6 mb-4">
+
+                    <strong>Venue</strong>
+
+                    <p class="form-control bg-light">
+
+                        @(string.IsNullOrEmpty(Model.Venue)
+                            ? "Not specified"
+                            : Model.Venue)
+
+                    </p>
+
+                </div>
+
+
+                <div class="col-md-6 mb-4">
+
+                    <strong>Status</strong>
+
+                    <p>
+
+                        @if (Model.IsActive)
+                        {
+                            <span class="badge bg-success fs-6">
+                                Active
+                            </span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-secondary fs-6">
+                                Inactive
+                            </span>
+                        }
+
+                    </p>
+
+                </div>
+
+
+                <div class="col-12 mb-4">
+
+                    <strong>Description</strong>
+
+                    <div class="form-control bg-light"
+                         style="min-height:100px;">
+
+                        @(string.IsNullOrEmpty(Model.Description)
+                            ? "No description provided."
+                            : Model.Description)
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- Job Openings -->
+
+    <div class="card shadow-sm">
+
+        <div class="card-header">
+
+            <h4 class="mb-0">
+                Job Openings
+            </h4>
+
+        </div>
+
+        <div class="card-body">
+
+            @if (Model.JobOpenings == null ||
+                 !Model.JobOpenings.Any())
+            {
+                <div class="alert alert-info mb-0">
+
+                    No job openings have been added
+                    to this placement drive yet.
+
+                </div>
+            }
+            else
+            {
+                <div class="table-responsive">
+
+                    <table class="table table-bordered table-hover">
+
+                        <thead class="table-dark">
+
+                            <tr>
+
+                                <th>
+                                    Job Title
+                                </th>
+
+                                <th>
+                                    Location
+                                </th>
+
+                                <th>
+                                    Employment Type
+                                </th>
+
+                                <th>
+                                    Salary / Package
+                                </th>
+
+                                <th>
+                                    Minimum CGPA
+                                </th>
+
+                            </tr>
+
+                        </thead>
+
+                        <tbody>
+
+                            @foreach (var job in Model.JobOpenings)
+                            {
+                                <tr>
+
+                                    <td>
+                                        @job.JobTitle
+                                    </td>
+
+                                    <td>
+                                        @(string.IsNullOrEmpty(job.JobLocation)
+                                            ? "Not specified"
+                                            : job.JobLocation)
+                                    </td>
+
+                                    <td>
+                                        @(string.IsNullOrEmpty(job.EmploymentType)
+                                            ? "Not specified"
+                                            : job.EmploymentType)
+                                    </td>
+
+                                    <td>
+                                        @if (job.SalaryPackage.HasValue)
+                                        {
+                                            @job.SalaryPackage.Value.ToString("N2")
+                                        }
+                                        else
+                                        {
+                                            <span>Not specified</span>
+                                        }
+                                    </td>
+
+                                    <td>
+                                        @job.MinimumCGPA
+                                    </td>
+
+                                </tr>
+                            }
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+            }
+
+        </div>
+
+    </div>
+
+</div>

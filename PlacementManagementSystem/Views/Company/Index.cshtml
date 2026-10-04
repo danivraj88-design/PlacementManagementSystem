@@ -1,0 +1,165 @@
+﻿@model PlacementManagementSystem.Models.Company
+
+@{
+    ViewData["Title"] = "Company Dashboard";
+}
+
+<div class="container mt-5">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="fw-bold">Company Dashboard</h1>
+            <p class="text-muted mb-0">
+                Welcome, @Model.CompanyName
+            </p>
+        </div>
+
+        <span class="badge @(Model.IsApproved ? "bg-success" : "bg-warning text-dark") fs-6 p-2">
+            @(Model.IsApproved ? "Approved" : "Pending Approval")
+        </span>
+    </div>
+
+    @if (!Model.IsApproved)
+    {
+        <div class="alert alert-warning">
+            <h5 class="alert-heading">Account Pending Approval</h5>
+            <p class="mb-0">
+                Your company account has been registered successfully.
+                Please wait for the TPO to approve your company account.
+                Once approved, you will be able to create job openings
+                and manage applications.
+            </p>
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-success">
+            <strong>Company Approved!</strong>
+            You can now create job openings and manage student applications.
+        </div>
+    }
+
+    <div class="row g-4 mt-2">
+
+        <!-- Profile -->
+        <div class="col-md-4">
+            <div class="card shadow-sm h-100">
+                <div class="card-body">
+                    <h4 class="card-title">Company Profile</h4>
+
+                    <p class="text-muted">
+                        View your company information and approval status.
+                    </p>
+
+                    <a asp-controller="Company"
+                       asp-action="Profile"
+                       class="btn btn-dark">
+                        View Profile
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Jobs -->
+        <div class="col-md-4">
+            <div class="card shadow-sm h-100">
+                <div class="card-body">
+                    <h4 class="card-title">Job Openings</h4>
+
+                    <h2 class="fw-bold">
+                        @ViewBag.TotalJobs
+                    </h2>
+
+                    <p class="text-muted">
+                        Total job openings created by your company.
+                    </p>
+
+                    @if (Model.IsApproved)
+                    {
+                        <a asp-controller="Company"
+                           asp-action="Jobs"
+                           class="btn btn-dark">
+                            Manage Jobs
+                        </a>
+                    }
+                    else
+                    {
+                        <button class="btn btn-secondary" disabled>
+                            Awaiting Approval
+                        </button>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <!-- Applications -->
+        <div class="col-md-4">
+            <div class="card shadow-sm h-100">
+                <div class="card-body">
+                    <h4 class="card-title">Applications</h4>
+
+                    <h2 class="fw-bold">
+                        @ViewBag.TotalApplications
+                    </h2>
+
+                    <p class="text-muted">
+                        Applications received from students.
+                    </p>
+
+                    @if (Model.IsApproved)
+                    {
+                        <a asp-controller="Company"
+                           asp-action="Applications"
+                           class="btn btn-dark">
+                            View Applications
+                        </a>
+                    }
+                    else
+                    {
+                        <button class="btn btn-secondary" disabled>
+                            Awaiting Approval
+                        </button>
+                    }
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Company Information -->
+
+    <div class="card shadow-sm mt-5">
+        <div class="card-header">
+            <h4 class="mb-0">Company Information</h4>
+        </div>
+
+        <div class="card-body">
+
+            <div class="row">
+
+                <div class="col-md-6 mb-3">
+                    <strong>Company Name</strong>
+                    <p>@Model.CompanyName</p>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <strong>Contact Person</strong>
+                    <p>@Model.ContactPerson</p>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <strong>Official Email</strong>
+                    <p>@Model.OfficialEmail</p>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <strong>Industry</strong>
+                    <p>@Model.Industry</p>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+</div>

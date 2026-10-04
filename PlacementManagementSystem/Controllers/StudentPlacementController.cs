@@ -22,31 +22,33 @@ namespace PlacementManagementSystem.Controllers
         }
 
         // ============================================
-        // AVAILABLE PLACEMENT DRIVES / JOB OPENINGS
+        // STUDENT - VIEW PLACEMENT DRIVES
         // ============================================
         public async Task<IActionResult> Drives()
         {
-            var today = DateTime.Today;
-
-            var jobs = await _context.JobOpenings
-                .Include(j => j.Company)
-                .Include(j => j.PlacementDrive)
-                .Where(j =>
-                    j.IsActive &&
-                    j.Company != null &&
-                    j.Company.IsApproved &&
-                    (
-                        j.ApplicationDeadline == null ||
-                        j.ApplicationDeadline >= today
-                    ))
-                .OrderBy(j => j.ApplicationDeadline)
+            // Get all active placement drives
+            var drives = await _context.PlacementDrives
+                .Where(d => d.IsActive)
+                .OrderBy(d => d.DriveDate)
                 .ToListAsync();
 
-            return View(jobs);
+            // Load jobs separately for every placement drive
+            foreach (var drive in drives)
+            {
+                drive.JobOpenings = await _context.JobOpenings
+                    .Include(j => j.Company)
+                    .Where(j =>
+                        j.PlacementDriveId == drive.PlacementDriveId &&
+                        j.IsActive)
+                    .ToListAsync();
+            }
+
+            return View(drives);
         }
 
+
         // ============================================
-        // APPLY FOR JOB
+        // STUDENT - APPLY FOR JOB
         // ============================================
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -71,16 +73,17 @@ namespace PlacementManagementSystem.Controllers
 
             var job = await _context.JobOpenings
                 .Include(j => j.Company)
-                .FirstOrDefaultAsync(j =>
-                    j.JobOpeningId == id &&
-                    j.IsActive);
+                .Include(j => j.PlacementDrive)
+                .FirstOrDefaultAsync(
+                    j => j.JobOpeningId == id &&
+                         j.IsActive);
 
             if (job == null)
             {
                 return NotFound("Job opening was not found.");
             }
 
-            // Check company approval
+            // Company approval check
             if (job.Company == null || !job.Company.IsApproved)
             {
                 TempData["Error"] =
@@ -89,7 +92,7 @@ namespace PlacementManagementSystem.Controllers
                 return RedirectToAction(nameof(Drives));
             }
 
-            // Check application deadline
+            // Deadline check
             if (job.ApplicationDeadline.HasValue &&
                 job.ApplicationDeadline.Value.Date < DateTime.Today)
             {
@@ -99,7 +102,7 @@ namespace PlacementManagementSystem.Controllers
                 return RedirectToAction(nameof(Drives));
             }
 
-            // Check duplicate application
+            // Already applied check
             var alreadyApplied =
                 await _context.PlacementApplications
                     .AnyAsync(a =>
@@ -114,7 +117,7 @@ namespace PlacementManagementSystem.Controllers
                 return RedirectToAction(nameof(Drives));
             }
 
-            // Check CGPA
+            // CGPA check
             if (!student.CurrentCGPA.HasValue ||
                 student.CurrentCGPA.Value < job.MinimumCGPA)
             {
@@ -124,7 +127,7 @@ namespace PlacementManagementSystem.Controllers
                 return RedirectToAction(nameof(Drives));
             }
 
-            // Check backlogs
+            // Backlog check
             if (student.ActiveBacklogs > job.MaximumBacklogs)
             {
                 TempData["Error"] =
@@ -133,11 +136,13 @@ namespace PlacementManagementSystem.Controllers
                 return RedirectToAction(nameof(Drives));
             }
 
-            // Check department
+            // Department check
             if (!string.IsNullOrWhiteSpace(job.EligibleDepartments))
             {
                 var departments = job.EligibleDepartments
-                    .Split(',', StringSplitOptions.RemoveEmptyEntries)
+                    .Split(
+                        ',',
+                        StringSplitOptions.RemoveEmptyEntries)
                     .Select(d => d.Trim())
                     .ToList();
 
@@ -174,8 +179,9 @@ namespace PlacementManagementSystem.Controllers
             return RedirectToAction(nameof(Applications));
         }
 
+
         // ============================================
-        // MY APPLICATIONS
+        // STUDENT - MY APPLICATIONS
         // ============================================
         public async Task<IActionResult> Applications()
         {
@@ -193,18 +199,24 @@ namespace PlacementManagementSystem.Controllers
 
             if (student == null)
             {
-                return NotFound("Student profile was not found.");
+                return NotFound(
+                    "Student profile was not found.");
             }
 
             var applications =
                 await _context.PlacementApplications
+
                     .Include(a => a.JobOpening)
                         .ThenInclude(j => j.Company)
+
                     .Include(a => a.JobOpening)
                         .ThenInclude(j => j.PlacementDrive)
+
                     .Where(a =>
                         a.StudentId == student.StudentId)
+
                     .OrderByDescending(a => a.AppliedAt)
+
                     .ToListAsync();
 
             return View(applications);

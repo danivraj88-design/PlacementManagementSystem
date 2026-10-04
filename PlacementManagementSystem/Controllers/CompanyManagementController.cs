@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PlacementManagementSystem.Data;
-using PlacementManagementSystem.Models;
 
 namespace PlacementManagementSystem.Controllers
 {
@@ -17,65 +16,109 @@ namespace PlacementManagementSystem.Controllers
             _context = context;
         }
 
+
+        // ==========================================
+        // COMPANY LIST
+        // ==========================================
         public async Task<IActionResult> Index()
         {
             var companies = await _context.Companies
+                .Include(c => c.User)
                 .OrderByDescending(c => c.CreatedAt)
                 .ToListAsync();
 
             return View(companies);
         }
 
+
+        // ==========================================
+        // COMPANY DETAILS
+        // ==========================================
         public async Task<IActionResult> Details(int id)
         {
             var company = await _context.Companies
-                .Include(c => c.JobOpenings)
+                .Include(c => c.User)
                 .FirstOrDefaultAsync(c =>
                     c.CompanyId == id);
 
             if (company == null)
             {
-                return NotFound();
+                return NotFound(
+                    "Company was not found.");
             }
+
+            ViewBag.JobOpeningCount =
+                await _context.JobOpenings
+                    .CountAsync(j =>
+                        j.CompanyId == company.CompanyId);
+
+            ViewBag.ApplicationCount =
+                await _context.PlacementApplications
+                    .Where(a =>
+                        a.JobOpening != null &&
+                        a.JobOpening.CompanyId ==
+                        company.CompanyId)
+                    .CountAsync();
 
             return View(company);
         }
 
+
+        // ==========================================
+        // APPROVE COMPANY
+        // ==========================================
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Approve(int id)
         {
             var company = await _context.Companies
-                .FindAsync(id);
+                .FirstOrDefaultAsync(c =>
+                    c.CompanyId == id);
 
             if (company == null)
             {
-                return NotFound();
+                return NotFound(
+                    "Company was not found.");
             }
 
             company.IsApproved = true;
             company.ApprovedAt = DateTime.UtcNow;
+            company.UpdatedAt = DateTime.UtcNow;
 
             await _context.SaveChangesAsync();
+
+            TempData["Success"] =
+                $"{company.CompanyName} has been approved successfully.";
 
             return RedirectToAction(nameof(Index));
         }
 
+
+        // ==========================================
+        // REJECT COMPANY
+        // ==========================================
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Reject(int id)
         {
             var company = await _context.Companies
-                .FindAsync(id);
+                .FirstOrDefaultAsync(c =>
+                    c.CompanyId == id);
 
             if (company == null)
             {
-                return NotFound();
+                return NotFound(
+                    "Company was not found.");
             }
 
             company.IsApproved = false;
+            company.ApprovedAt = null;
+            company.UpdatedAt = DateTime.UtcNow;
 
             await _context.SaveChangesAsync();
+
+            TempData["Success"] =
+                $"{company.CompanyName} has been rejected.";
 
             return RedirectToAction(nameof(Index));
         }

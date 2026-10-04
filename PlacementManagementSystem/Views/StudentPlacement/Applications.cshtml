@@ -6,6 +6,8 @@
 
 <div class="container mt-4 mb-5">
 
+    <!-- Page Header -->
+
     <div class="d-flex justify-content-between align-items-center mb-4">
 
         <div>
@@ -18,14 +20,16 @@
 
         <div>
 
-            <a asp-controller="Student"
-               asp-action="Index"
+            <!-- Dashboard -->
+
+            <a href="/Student/Index"
                class="btn btn-secondary">
                 Dashboard
             </a>
 
-            <a asp-controller="StudentPlacement"
-               asp-action="Drives"
+            <!-- Browse Placement Drives -->
+
+            <a href="/StudentPlacement/Drives"
                class="btn btn-primary">
                 Browse Drives
             </a>
@@ -35,45 +39,107 @@
     </div>
 
 
+    <!-- Success Message -->
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show">
+
+            @TempData["Success"]
+
+            <button type="button"
+                    class="btn-close"
+                    data-bs-dismiss="alert">
+            </button>
+
+        </div>
+    }
+
+
+    <!-- Error Message -->
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-danger alert-dismissible fade show">
+
+            @TempData["Error"]
+
+            <button type="button"
+                    class="btn-close"
+                    data-bs-dismiss="alert">
+            </button>
+
+        </div>
+    }
+
+
+    <!-- No Applications -->
     @if (!Model.Any())
     {
         <div class="alert alert-info">
 
-            <h5>No applications yet.</h5>
+            <h5>
+                No applications yet.
+            </h5>
 
-            <p class="mb-0">
+            <p class="mb-3">
                 You have not applied for any placement opportunity.
             </p>
+
+            <a href="/StudentPlacement/Drives"
+               class="btn btn-primary">
+                Browse Placement Drives
+            </a>
 
         </div>
     }
     else
     {
+        <!-- Applications Table -->
+
         <div class="card shadow-sm">
+
+            <div class="card-header bg-dark text-white">
+
+                <h4 class="mb-0">
+                    My Placement Applications
+                </h4>
+
+            </div>
+
 
             <div class="card-body">
 
                 <div class="table-responsive">
 
-                    <table class="table table-bordered table-hover">
+                    <table class="table table-bordered table-hover align-middle">
 
                         <thead class="table-dark">
 
                             <tr>
 
-                                <th>Job</th>
+                                <th>
+                                    Job
+                                </th>
 
-                                <th>Company</th>
+                                <th>
+                                    Company
+                                </th>
 
-                                <th>Placement Drive</th>
+                                <th>
+                                    Placement Drive
+                                </th>
 
-                                <th>Applied Date</th>
+                                <th>
+                                    Applied Date
+                                </th>
 
-                                <th>Status</th>
+                                <th>
+                                    Status
+                                </th>
 
                             </tr>
 
                         </thead>
+
 
                         <tbody>
 
@@ -81,23 +147,42 @@
                             {
                                 <tr>
 
-                                    <td>
-                                        @application.JobOpening?.JobTitle
-                                    </td>
+                                    <!-- Job -->
 
                                     <td>
-                                        @application.JobOpening?.Company?.CompanyName
+                                        <strong>
+                                            @(application.JobOpening?.JobTitle
+                                                ?? "Job not available")
+                                        </strong>
                                     </td>
+
+
+                                    <!-- Company -->
+
+                                    <td>
+                                        @(application.JobOpening?.Company?.CompanyName
+                                            ?? "Company not available")
+                                    </td>
+
+
+                                    <!-- Placement Drive -->
 
                                     <td>
                                         @(application.JobOpening?.PlacementDrive?.DriveName
                                             ?? "General Placement")
                                     </td>
 
+
+                                    <!-- Applied Date -->
+
                                     <td>
-                                        @application.AppliedAt.ToLocalTime()
+                                        @application.AppliedAt
+                                        .ToLocalTime()
                                         .ToString("dd-MM-yyyy hh:mm tt")
                                     </td>
+
+
+                                    <!-- Status -->
 
                                     <td>
 
@@ -128,7 +213,9 @@
                                         else
                                         {
                                             <span class="badge bg-primary">
-                                                @application.Status
+                                                @(string.IsNullOrEmpty(application.Status)
+                                                    ? "Applied"
+                                                    : application.Status)
                                             </span>
                                         }
 

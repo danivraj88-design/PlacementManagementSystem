@@ -1,0 +1,319 @@
+﻿@model PlacementManagementSystem.Models.Company
+
+@{
+    ViewData["Title"] = "Company Details";
+}
+
+<div class="container mt-5 mb-5">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+            <h1 class="fw-bold">Company Details</h1>
+            <p class="text-muted">
+                Review company information and approval status.
+            </p>
+        </div>
+
+        <a asp-controller="CompanyManagement"
+           asp-action="Index"
+           class="btn btn-outline-dark">
+            ← Back to Companies
+        </a>
+
+    </div>
+
+
+    <!-- Approval Status -->
+    @if (Model.IsApproved)
+    {
+        <div class="alert alert-success">
+
+            <h5 class="alert-heading">
+                ✓ Company Approved
+            </h5>
+
+            <p class="mb-0">
+                This company has been approved for placement activities.
+            </p>
+
+            @if (Model.ApprovedAt.HasValue)
+            {
+                <hr />
+
+                <p class="mb-0">
+                    <strong>Approved On:</strong>
+                    @Model.ApprovedAt.Value
+                    .ToLocalTime()
+                    .ToString("dd MMMM yyyy")
+                </p>
+            }
+
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-warning">
+
+            <h5 class="alert-heading">
+                ⏳ Pending Approval
+            </h5>
+
+            <p class="mb-0">
+                This company is waiting for TPO approval.
+            </p>
+
+        </div>
+    }
+
+
+    <!-- Company Information -->
+
+    <div class="card shadow-sm mb-4">
+
+        <div class="card-header bg-dark text-white">
+            <h4 class="mb-0">
+                Company Information
+            </h4>
+        </div>
+
+        <div class="card-body">
+
+            <div class="row">
+
+                <div class="col-md-6 mb-4">
+
+                    <strong>Company Name</strong>
+
+                    <p class="form-control bg-light">
+                        @Model.CompanyName
+                    </p>
+
+                </div>
+
+
+                <div class="col-md-6 mb-4">
+
+                    <strong>Contact Person</strong>
+
+                    <p class="form-control bg-light">
+                        @Model.ContactPerson
+                    </p>
+
+                </div>
+
+
+                <div class="col-md-6 mb-4">
+
+                    <strong>Official Email</strong>
+
+                    <p class="form-control bg-light">
+                        @Model.OfficialEmail
+                    </p>
+
+                </div>
+
+
+                <div class="col-md-6 mb-4">
+
+                    <strong>Phone Number</strong>
+
+                    <p class="form-control bg-light">
+                        @(string.IsNullOrEmpty(Model.PhoneNumber)
+                            ? "Not provided"
+                            : Model.PhoneNumber)
+                    </p>
+
+                </div>
+
+
+                <div class="col-md-6 mb-4">
+
+                    <strong>Industry</strong>
+
+                    <p class="form-control bg-light">
+                        @Model.Industry
+                    </p>
+
+                </div>
+
+
+                <div class="col-md-6 mb-4">
+
+                    <strong>Website</strong>
+
+                    <p class="form-control bg-light">
+
+                        @if (!string.IsNullOrEmpty(Model.Website))
+                        {
+                            <a href="@Model.Website"
+                               target="_blank">
+                                @Model.Website
+                            </a>
+                        }
+                        else
+                        {
+                            <span>Not provided</span>
+                        }
+
+                    </p>
+
+                </div>
+
+
+                <div class="col-12 mb-4">
+
+                    <strong>Address</strong>
+
+                    <p class="form-control bg-light"
+                       style="min-height:70px;">
+
+                        @(string.IsNullOrEmpty(Model.Address)
+                            ? "Not provided"
+                            : Model.Address)
+
+                    </p>
+
+                </div>
+
+
+                <div class="col-12 mb-4">
+
+                    <strong>Description</strong>
+
+                    <p class="form-control bg-light"
+                       style="min-height:100px;">
+
+                        @(string.IsNullOrEmpty(Model.Description)
+                            ? "Not provided"
+                            : Model.Description)
+
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- Placement Statistics -->
+
+    <div class="row g-4 mb-4">
+
+        <div class="col-md-6">
+
+            <div class="card shadow-sm text-center">
+
+                <div class="card-body">
+
+                    <h5 class="text-muted">
+                        Job Openings
+                    </h5>
+
+                    <h2 class="fw-bold">
+                        @ViewBag.JobOpeningCount
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="col-md-6">
+
+            <div class="card shadow-sm text-center">
+
+                <div class="card-body">
+
+                    <h5 class="text-muted">
+                        Applications
+                    </h5>
+
+                    <h2 class="fw-bold">
+                        @ViewBag.ApplicationCount
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- Approval Actions -->
+
+    <div class="card shadow-sm">
+
+        <div class="card-header">
+            <h5 class="mb-0">
+                TPO Actions
+            </h5>
+        </div>
+
+        <div class="card-body">
+
+            @if (!Model.IsApproved)
+            {
+                <form asp-controller="CompanyManagement"
+                      asp-action="Approve"
+                      method="post"
+                      class="d-inline">
+
+                    @Html.AntiForgeryToken()
+
+                    <input type="hidden"
+                           name="id"
+                           value="@Model.CompanyId" />
+
+                    <button type="submit"
+                            class="btn btn-success">
+
+                        ✓ Approve Company
+
+                    </button>
+
+                </form>
+            }
+            else
+            {
+                <form asp-controller="CompanyManagement"
+                      asp-action="Reject"
+                      method="post"
+                      class="d-inline">
+
+                    @Html.AntiForgeryToken()
+
+                    <input type="hidden"
+                           name="id"
+                           value="@Model.CompanyId" />
+
+                    <button type="submit"
+                            class="btn btn-danger">
+
+                        ✕ Reject Company
+
+                    </button>
+
+                </form>
+            }
+
+            <a asp-controller="CompanyManagement"
+               asp-action="Index"
+               class="btn btn-secondary ms-2">
+
+                Back
+
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
